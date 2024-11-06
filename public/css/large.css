@@ -1,0 +1,33 @@
+/* .d8888b   88888b.d88b.   
+// 88K       888 "888 "88b  
+// "Y8888b.  888  888  888  
+//      X88  888  888  888  
+//  88888P'  888  888  888  
+*/
+@media (min-width: 640px) {
+    #top-header {
+        flex-direction: row;
+    }
+}
+
+/*                     888  
+//                     888  
+//                     888  
+// 88888b.d88b.    .d88888  
+// 888 "888 "88b  d88" 888  
+// 888  888  888  888  888  
+// 888  888  888  Y88b 888  
+// 888  888  888   "Y88888  
+*/
+@media (min-width: 768px) {
+    #wrapper {
+        overflow: hidden;
+
+        width: 90vw;
+        margin-left: auto;
+        margin-right: auto;
+
+        border: 10px solid var(--higlight-color);
+        border-radius: 10px;
+    }
+}
