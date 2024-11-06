@@ -175,6 +175,8 @@ nav a {
     display: flex;
     flex-direction: column-reverse;
 
+    margin-top: 2rem;
+
     gap: 1rem;
 }
 
