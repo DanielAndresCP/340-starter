@@ -53,16 +53,6 @@ body {
 // 888    888  Y8b.      888  888  Y88b 888  Y8b.      888      
 // 888    888   "Y8888   "Y888888   "Y88888   "Y8888   888      
 */
-/*
-<header id="top-header">
-    <span class="siteName">
-        <a href="/" title="Return to home page">CSE Motors</a>
-    </span>
-    <div id="tools">
-        <a title="Click to log in" href="/account/login">My Account</a>
-    </div>
-</header>
-*/
 #top-header {
     display: flex;
     flex-direction: column;
@@ -82,4 +72,38 @@ body {
 
 #top-header #tools {
     font-size: 1.5rem;
+}
+
+/* 888b    888                      
+// 8888b   888                      
+// 88888b  888                      
+// 888Y88b 888   8888b.   888  888  
+// 888 Y88b888      "88b  888  888  
+// 888  Y88888  .d888888  Y88  88P  
+// 888   Y8888  888  888   Y8bd8P   
+// 888    Y888  "Y888888    Y88P    
+*/
+/*
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Custom</a>
+    <a href="#">Sedan</a>
+    <a href="#">SUV</a>
+    <a href="#">Truck</a>
+</nav>
+*/
+nav {
+    margin-top: 1rem;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background-color: var(--neutral-color);
+}
+
+nav a {
+    padding: 0.5rem;
+    color: white;
+    text-decoration: none;
 }
