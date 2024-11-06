@@ -41,4 +41,7 @@
 // 888  888  888   "Y88888  
 */
 @media (min-width: 768px) {
+    .home-content{
+        flex-direction: row;
+    }
 }
