@@ -41,7 +41,11 @@
 // 888  888  888   "Y88888  
 */
 @media (min-width: 768px) {
-    .home-content{
+    .home-content {
         flex-direction: row;
+    }
+
+    .home-hero .vehicle-info {
+        margin-left: 2rem;
     }
 }
