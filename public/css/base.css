@@ -127,7 +127,6 @@ nav a {
 .home-hero .vehicle-info {
     z-index: var(--z-on-top);
 
-    font-size: 1.3rem;
     padding: 1rem;
 
     grid-column: 1/3;
@@ -143,8 +142,8 @@ nav a {
     margin: 0;
 }
 
-.home-hero .vehicle-info :first-child {
-    font-size: 1.2em;
+.home-hero .vehicle-info :not(:first-child) {
+    font-size: 1.3rem;
 }
 
 .home-hero .vehicle-info a {
