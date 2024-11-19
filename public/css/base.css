@@ -50,6 +50,10 @@ body {
     padding: 1rem;
 }
 
+.debug {
+    border: 1px solid red;
+}
+
 /* 888    888                           888                     
 // 888    888                           888                     
 // 888    888                           888                     
@@ -92,6 +96,7 @@ body {
 nav {
     margin-top: 1rem;
     display: flex;
+    flex-direction: column;
 
     justify-content: space-evenly;
     align-items: center;
@@ -221,6 +226,75 @@ nav a {
 
 .vehicle-reviews ul li:not(:last-child) {
     margin-bottom: 0.5rem;
+}
+
+/*  .d8888b.             888                                                      
+// d88P  Y88b            888                                                      
+// 888    888            888                                                      
+// 888          8888b.   888888   .d88b.    .d88b.    .d88b.   888d888  888  888  
+// 888             "88b  888     d8P  Y8b  d88P"88b  d88""88b  888P"    888  888  
+// 888    888  .d888888  888     88888888  888  888  888  888  888      888  888  
+// Y88b  d88P  888  888  Y88b.   Y8b.      Y88b 888  Y88..88P  888      Y88b 888  
+//  "Y8888P"   "Y888888   "Y888   "Y8888    "Y88888   "Y88P"   888       "Y88888  
+//                                              888                          888  
+//                                         Y8b d88P                     Y8b d88P  
+//                                          "Y88P"                       "Y88P"
+// 8888888b.                                 
+// 888   Y88b                                
+// 888    888                                
+// 888   d88P   8888b.    .d88b.    .d88b.   
+// 8888888P"       "88b  d88P"88b  d8P  Y8b  
+// 888         .d888888  888  888  88888888  
+// 888         888  888  Y88b 888  Y8b.      
+// 888         "Y888888   "Y88888   "Y8888   
+//                            888            
+//                       Y8b d88P            
+//                        "Y88P"
+*/
+
+#inv-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+#inv-display article {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    border: 1px solid var(--neutral-color);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#inv-display article > a {
+    height: 100%;
+}
+
+#inv-display article hr {
+    border: 2px solid var(--neutral-color);
+    width: 100%;
+    margin: 0;
+}
+
+#inv-display article img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#inv-display article div {
+    text-align: center;
+    padding: 1rem;
+}
+
+#inv-display article div h2 {
+    margin-top: 0;
+}
+
+#inv-display article div span {
+    font-size: 1.2em;
 }
 
 /* 8888888888                      888                        
