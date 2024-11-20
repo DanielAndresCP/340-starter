@@ -25,7 +25,7 @@ Util.getNav = async function (req, res, next) {
  *
  * @param {[]} data
  */
-Util.buildClassificationGrid = async function (data) {
+Util.buildClassificationGrid = function (data) {
     // If there are no vehicles, we return inmediately
     if (data.length === 0) {
         return '<p class="notice>Sorry, no matching vehicles could be found.</p>';
@@ -64,6 +64,40 @@ Util.buildClassificationGrid = async function (data) {
     }
 
     return `<div id=inv-display> ${vehicleCards.join("")} </div>`;
+};
+
+Util.buildInventoryDetails = function (data) {
+    const vehicleMakeAndModel = `${data.inv_make} ${data.inv_model}`;
+    const formattedPrice = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0,
+    }).format(Number(data.inv_price));
+    const formattedMiles = new Intl.NumberFormat("en-US").format(
+        Number(data.inv_miles)
+    );
+
+    const html = `
+    <section class="vehicle-details-container">
+        <div class="vehicle-img">
+            <img src="${data.inv_image}" alt="Photograph of ${vehicleMakeAndModel}">
+        </div>
+        <div class="vehicle-details">
+            <h2>${vehicleMakeAndModel} Details</h2>
+            <div>
+                <p><b>Price: ${formattedPrice}</b></p>
+                <p><b>Description:</b> ${data.inv_description}</p>
+                <p><b>Exterior Color:</b> ${data.inv_color}</p>
+                <p><b>Mileage:</b> ${formattedMiles}</p>
+                <p><b>Year:</b> ${data.inv_year}</p>
+                <p><b>Classification:</b> ${data.classification_name}</p>
+            </div>
+        </div>
+    </section>
+    `;
+
+    // return `${html} <pre>${JSON.stringify(data, null, 4)}</pre>`;
+    return html;
 };
 
 /* ****************************************

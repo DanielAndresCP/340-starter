@@ -60,4 +60,8 @@
     .home-hero .vehicle-info {
         margin-left: 2rem;
     }
+
+    .vehicle-details-container{
+        flex-direction: row;
+    }
 }

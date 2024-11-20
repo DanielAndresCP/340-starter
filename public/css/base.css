@@ -328,7 +328,7 @@ nav a {
     display: flex;
     flex-direction: row;
     gap: 2rem;
-    
+
     font-size: 1.3rem;
 }
 
@@ -340,6 +340,63 @@ nav a {
     display: block;
     max-width: 400px;
     width: 100%;
+}
+
+/* 8888888b.             888               d8b  888            
+// 888  "Y88b            888               Y8P  888            
+// 888    888            888                    888            
+// 888    888   .d88b.   888888   8888b.   888  888  .d8888b   
+// 888    888  d8P  Y8b  888         "88b  888  888  88K       
+// 888    888  88888888  888     .d888888  888  888  "Y8888b.  
+// 888  .d88P  Y8b.      Y88b.   888  888  888  888       X88  
+// 8888888P"    "Y8888    "Y888  "Y888888  888  888   88888P'  
+//                                                             
+// 8888888b.                                 
+// 888   Y88b                                
+// 888    888                                
+// 888   d88P   8888b.    .d88b.    .d88b.   
+// 8888888P"       "88b  d88P"88b  d8P  Y8b  
+// 888         .d888888  888  888  88888888  
+// 888         888  888  Y88b 888  Y8b.      
+// 888         "Y888888   "Y88888   "Y8888   
+//                            888            
+//                       Y8b d88P            
+//                        "Y88P"
+*/
+
+.vehicle-details-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.vehicle-img img {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+}
+
+.vehicle-img,
+.vehicle-details {
+    flex-grow: 1;
+    flex-basis: 0;
+}
+
+.vehicle-details div {
+    font-size: 1.2rem;
+}
+
+.vehicle-details p {
+    margin: 0;
+    padding: 0.7rem;
+}
+
+.vehicle-details p:nth-child(1) {
+    font-size: 1.2em;
+}
+
+.vehicle-details p:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 /* 8888888888                      888                        

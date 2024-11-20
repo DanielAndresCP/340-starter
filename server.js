@@ -30,12 +30,14 @@ app.get("/", utilities.handleErrors(baseController.buildHome));
 
 app.use("/inv", inventoryRoute);
 
-app.use(async (req, res, next) => {
-    next({
-        status: 404,
-        message: "Sorry, we appear to have lost that page.",
-    });
-});
+app.use(
+    utilities.handleErrors(async (req, res, next) => {
+        next({
+            status: 404,
+            message: "Sorry, we appear to have lost that page.",
+        });
+    })
+);
 
 /* ***********************
  * Express Error Handler

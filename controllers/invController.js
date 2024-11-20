@@ -29,4 +29,25 @@ invCont.buildByClassificationId = async function (req, res, next) {
     });
 };
 
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.buildByInvId = async function (req, res, next) {
+    const inv_id = req.params.invId;
+    // on this case the data is an object (not array)
+    const data = await invModel.getInventoryItemById(inv_id);
+
+    const details = utilities.buildInventoryDetails(data);
+    const nav = await utilities.getNav();
+
+    res.render("./inventory/item", {
+        title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
+        nav,
+        details,
+    });
+};
+
 module.exports = invCont;
