@@ -268,8 +268,14 @@ nav a {
     overflow: hidden;
 }
 
-#inv-display article > a {
+#inv-display > a,
+#inv-display > a > article {
     height: 100%;
+}
+
+#inv-display > a {
+    text-decoration: none;
+    color: unset;
 }
 
 #inv-display article hr {

@@ -36,39 +36,34 @@ Util.buildClassificationGrid = async function (data) {
     for (const vehicle of data) {
         // prettier-ignore
         const html = `
-        <article>
-            <a
-                href="../../inv/detail/${vehicle.inv_id}"
-                title="View ${vehicle.inv_make} ${vehicle.inv_model} details"
-            >
+        <a
+            href="../../inv/detail/${vehicle.inv_id}"
+            title="View ${vehicle.inv_make} ${vehicle.inv_model} details"
+        >
+            <article>
                 <img
                     src="${vehicle.inv_thumbnail}"
-                    alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"
+                    alt="Photograph of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors"
                 />
-            </a>
-            <hr />
-            <div class="namePrice">
-                <a
-                    href="../../inv/detail/${vehicle.inv_id}"
-                    title="View ${vehicle.inv_make} ${vehicle.inv_model} details"
-                >
+                <hr />
+                <div class="namePrice">
                     <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
-                </a>
-                <span>
-                    ${new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                        maximumFractionDigits: 0
-                    }).format(vehicle.inv_price)}
-                </span>
-            </div>
-        </article>
+                    <span>
+                        ${new Intl.NumberFormat("en-US", {
+                            style: "currency",
+                            currency: "USD",
+                            maximumFractionDigits: 0
+                        }).format(vehicle.inv_price)}
+                    </span>
+                </div>
+            </article>
+        </a>
         `;
 
         vehicleCards.push(html);
     }
 
-    return `<section id=inv-display> ${vehicleCards.join("")} </section>`;
+    return `<div id=inv-display> ${vehicleCards.join("")} </div>`;
 };
 
 module.exports = Util;
