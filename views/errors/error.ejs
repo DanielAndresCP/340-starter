@@ -1,0 +1,20 @@
+<% if (title) { %>
+
+<h1><%= title %></h1>
+
+<% } else { res.redirect('/') } %>
+
+<div class="error-page-container">
+    <div>
+        <%= message %>
+        <p>Have a cat as an apology gift:</p>
+    </div>
+
+    <div>
+        <img
+            id="error-page-img"
+            src="https://cataas.com/cat?width=400"
+            alt="Photograph of a Random Cat"
+        />
+    </div>
+</div>
