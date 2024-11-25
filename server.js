@@ -12,7 +12,34 @@ const app = express();
 const static = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
+const accountRoute = require("./routes/accountRoute");
 const utilities = require("./utilities/index");
+const session = require("express-session");
+const pool = require("./database/index");
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(
+    session({
+        store: new (require("connect-pg-simple")(session))({
+            createTableIfMissing: true,
+            pool,
+        }),
+        secret: process.env.SESSION_SECRET,
+        resave: true,
+        saveUninitialized: true,
+        name: "sessionId",
+    })
+);
+
+// Express Mesages Middleware
+app.use(require("connect-flash")());
+app.use(function (req, res, next) {
+    res.locals.messages = require("express-messages")(req, res);
+    next();
+});
+
 /* ***********************
  * View engine and templates
  *************************/
@@ -29,6 +56,7 @@ app.use(static);
 app.get("/", utilities.handleErrors(baseController.buildHome));
 
 app.use("/inv", inventoryRoute);
+app.use("/account", accountRoute);
 
 app.use(
     utilities.handleErrors(async (req, res, next) => {

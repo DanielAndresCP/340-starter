@@ -1,0 +1,21 @@
+<%- messages() %>
+
+<section class="login-form">
+    <h1><%= title %></h1>
+    <form action="/" method="post">
+        <label>
+            Email:
+            <input type="email" name="account_email" id="account_email" />
+        </label>
+        <label>
+            Password:
+            <input
+                type="password"
+                name="account_password"
+                id="account_password"
+            />
+        </label>
+        <button type="submit">Login</button>
+    </form>
+    <p>No account? <a href="/account/create">Sign-up</a></p>
+</section>
