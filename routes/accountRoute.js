@@ -6,7 +6,10 @@ const utilities = require("../utilities/index");
 const router = new express.Router();
 const accountController = require("../controllers/accountController");
 
-router.get("/login", utilities.handleErrors(accountController.buildLogin))
+router.get("/login", utilities.handleErrors(accountController.buildLogin));
+router.get(
+    "/registration",
+    utilities.handleErrors(accountController.buildRegistration)
+);
 
-
-module.exports = router
+module.exports = router;

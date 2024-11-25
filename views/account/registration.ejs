@@ -1,0 +1,54 @@
+<%- messages() %>
+
+<section class="registration-form">
+    <h1><%= title %></h1>
+    <form action="/" method="post">
+        <label>
+            *First name:
+            <input
+                type="text"
+                name="account_firstname"
+                id="account_firstname"
+                required
+            />
+        </label>
+        <label>
+            *Last Name:
+            <input
+                type="text"
+                name="account_lastname"
+                id="account_lastname"
+                required
+            />
+        </label>
+        <label>
+            *Email:
+            <input
+                type="email"
+                name="account_email"
+                id="account_email"
+                required
+            />
+        </label>
+        <label>
+            *Password:
+            <input
+                type="password"
+                name="account_password"
+                id="account_password"
+                required
+                pattern=""
+            />
+        </label>
+        <div>
+            <p>Password Requirements:</p>
+            <ul>
+                <li>Must be 12 characters in length, minimum</li>
+                <li>Must contain at least 1 capital letter</li>
+                <li>Must contain at least 1 number</li>
+                <li>Must contain at least 1 special character</li>
+            </ul>
+        </div>
+        <button type="submit">Register</button>
+    </form>
+</section>
