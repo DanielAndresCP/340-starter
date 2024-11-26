@@ -504,6 +504,7 @@ nav a {
 
 .registration-form h1 {
     margin-top: 0;
+    margin-bottom: 0;
 }
 
 .registration-form form {
@@ -535,6 +536,11 @@ nav a {
 .registration-form form button[type="submit"] {
     display: block;
     width: 100%;
+}
+
+.registration-form > p:first-of-type {
+    margin-top: 0.5rem;
+    margin-bottom: revert;
 }
 
 .registration-form p {
