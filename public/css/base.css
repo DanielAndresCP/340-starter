@@ -468,6 +468,16 @@ nav a {
     width: 100%;
 }
 
+.login-form p {
+    margin-bottom: 0;
+}
+
+.login-form ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 1.3rem;
+}
+
 /* 8888888b.                       d8b            888                        888     d8b                      
 // 888   Y88b                      Y8P            888                        888     Y8P                      
 // 888    888                                     888                        888                              
@@ -551,6 +561,15 @@ nav a {
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 1.3rem;
+}
+
+input:required:invalid,
+input:focus:invalid {
+    background-color: #f2bbb8;
+}
+
+input:required:valid {
+    background-color: #acf3a0;
 }
 
 /* 8888888888                      888                        
