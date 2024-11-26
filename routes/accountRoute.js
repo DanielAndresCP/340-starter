@@ -1,5 +1,7 @@
 const express = require("express");
 const utilities = require("../utilities/index");
+const regValidate = require("../utilities/account-validation");
+
 /**
  * @type {express.Router}
  */
@@ -15,6 +17,8 @@ router.get(
 // Account Registration route
 router.post(
     "/registration",
+    regValidate.registrationRules(),
+    regValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount)
 );
 
