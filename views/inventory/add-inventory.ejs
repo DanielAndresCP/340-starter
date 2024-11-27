@@ -40,7 +40,7 @@
         <label>
             Description:
             <!-- prettier-ignore -->
-            <textarea name="inv_description" required><%- locals.inv_description %></textarea>
+            <textarea name="inv_description" required minlength="40"><%- locals.inv_description %></textarea>
         </label>
         <label>
             Image:
@@ -48,6 +48,8 @@
                 type="text"
                 name="inv_image"
                 value="<%- locals.inv_image %>"
+                pattern="^(?=.*\.+)(?=.*/+).*$"
+                minlength="3"
                 placeholder="/images/vehicles/no-image.png"
                 required
             />
@@ -57,6 +59,8 @@
             <input
                 type="text"
                 name="inv_thumbnail"
+                pattern="^(?=.*\.+)(?=.*/+).*$"
+                minlength="3"
                 placeholder="/images/vehicles/no-image.png"
                 value="<%- locals.inv_thumbnail %>"
                 required
@@ -95,6 +99,14 @@
 
         <div>
             <p>Guide:</p>
+            <ul>
+                <li>The year must be 4 digits long</li>
+                <li>The description must be more than 40 characters long</li>
+                <li>
+                    The image URLs can be relative or absolute, must be at least
+                    3 characters long and include a dot (.) and slash (/)
+                </li>
+            </ul>
         </div>
         <button type="submit">Create</button>
     </form>
