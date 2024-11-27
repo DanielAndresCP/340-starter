@@ -60,4 +60,11 @@ router.get(
     utilities.handleErrors(invController.buildAddVehicle)
 );
 
+router.post(
+    "/add-inventory",
+    inventoryValidation.createVehicleRules(),
+    inventoryValidation.checkNewVehicleData,
+    utilities.handleErrors(invController.createVehicle)
+);
+
 module.exports = router;

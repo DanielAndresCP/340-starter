@@ -138,13 +138,71 @@ invCont.createClassification = async function (req, res, next) {
  */
 invCont.buildAddVehicle = async function (req, res, next) {
     const nav = await utilities.getNav();
-    const classificationSelect = await utilities.buildClassificationSelect()
+    const classificationSelect = await utilities.buildClassificationSelect();
 
     res.render("./inventory/add-inventory", {
         title: "Add Vehicle to Inventory",
         nav,
-        classificationSelect
+        classificationSelect,
     });
+};
+
+// Create a vehicle (receiving post request)
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.createVehicle = async function (req, res, next) {
+    const {
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id,
+    } = req.body;
+
+    const insertResult = await invModel.insertInventoryItem({
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id,
+    });
+
+    if (insertResult) {
+        req.flash(
+            "notice",
+            `The vehicle ${inv_make} ${inv_model} was created succesfully`
+        );
+        // We do a 303 redirect because it is so much
+        // easier to redirect than to have to generate the necesary
+        // parts of the view. I think this should always be done actually
+        res.redirect(303, `/inv/type/${classification_id}`);
+    } else {
+        let nav = await utilities.getNav();
+        const classificationSelect = await utilities.buildClassificationSelect(
+            classification_id
+        );
+
+        req.flash("error", "Sorry, the creation of the vehicle failed.");
+        res.status(501).render("./inventory/add-inventory", {
+            title: "Add Vehicle to Inventory",
+            nav,
+            classificationSelect,
+        });
+    }
 };
 
 module.exports = invCont;
