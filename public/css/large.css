@@ -7,6 +7,12 @@
 @media (min-width: 370px) {
     nav {
         flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    nav a {
+        padding: 1rem;
     }
 }
 
@@ -34,10 +40,6 @@
         flex-direction: row;
     }
 
-    nav a {
-        padding: 1rem;
-    }
-
     .home-hero .vehicle-info {
         grid-column: 1/2;
     }
@@ -61,7 +63,7 @@
         margin-left: 2rem;
     }
 
-    .vehicle-details-container{
+    .vehicle-details-container {
         flex-direction: row;
     }
 }
