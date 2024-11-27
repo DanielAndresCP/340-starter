@@ -20,6 +20,9 @@
 
     --z-base: 1;
     --z-on-top: calc(var(--z-base) + 1);
+
+    --success-color: #acf3a0;
+    --error-color: #f2bbb8;
 }
 
 /*  .d8888b.                                                    888  
@@ -52,6 +55,21 @@ body {
 
 .debug {
     border: 1px solid red;
+}
+
+ul.error {
+    background-color: var(--error-color);
+    padding: 1rem;
+}
+
+ul.notice {
+    background-color: var(--success-color);
+    padding: 1rem;
+}
+
+ul.error,
+ul.notice {
+    list-style-position: inside;
 }
 
 /* 888    888                           888                     
@@ -565,11 +583,11 @@ nav a {
 
 input:required:invalid,
 input:focus:invalid {
-    background-color: #f2bbb8;
+    background-color: var(--error-color);
 }
 
 input:required:valid {
-    background-color: #acf3a0;
+    background-color: var(--success-color);
 }
 
 /* 888b    888                                 .d8888b.   888                                

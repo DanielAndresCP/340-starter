@@ -70,7 +70,7 @@ async function registerAccount(req, res) {
             nav,
         });
     } else {
-        req.flash("notice", "Sorry, the registration failed.");
+        req.flash("error", "Sorry, the registration failed.");
         res.status(501).render("account/registration", {
             title: "Registration",
             nav,
