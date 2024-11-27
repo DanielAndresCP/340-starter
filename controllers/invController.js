@@ -35,7 +35,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-invCont.buildInventoryManagement = async function (req, res, next) {
+invCont.buildInventoryItem = async function (req, res, next) {
     const inv_id = req.params.invId;
     // on this case the data is an object (not array)
     const data = await invModel.getInventoryItemById(inv_id);
@@ -92,6 +92,41 @@ invCont.buildAddClassification = async function (req, res, next) {
         title: "Add Inventory Classification",
         nav,
     });
+};
+
+// Create Classification Form handling (post request)
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.createClassification = async function (req, res, next) {
+    let nav = await utilities.getNav();
+    const { classification_name } = req.body;
+
+    const insertResult = await invModel.insertClassificationCategory(
+        classification_name
+    );
+
+    if (insertResult) {
+        let newNav = await utilities.getNav();
+
+        req.flash(
+            "notice",
+            `The classification ${classification_name} was created succesfully`
+        );
+        res.status(201).render("inventory/management", {
+            title: "Inventory Management",
+            nav: newNav,
+        });
+    } else {
+        req.flash("error", "Sorry, the creation of the classification failed.");
+        res.status(501).render("./inventory/add-classification", {
+            title: "Add Inventory Classification",
+            nav,
+        });
+    }
 };
 
 module.exports = invCont;

@@ -1,5 +1,6 @@
 const express = require("express");
 const utilities = require("../utilities/index");
+const inventoryValidation = require("../utilities/inventory-validation");
 /**
  * @type {express.Router}
  */
@@ -26,7 +27,7 @@ router.get(
 // Route to build the vehicle detail view
 router.get(
     "/detail/:invId",
-    utilities.handleErrors(invController.buildInventoryManagement)
+    utilities.handleErrors(invController.buildInventoryItem)
 );
 
 // 8888888                           888b     d888                                     888
@@ -44,6 +45,12 @@ router.get("/", utilities.handleErrors(invController.buildInventoryManagement));
 router.get(
     "/add-classification",
     utilities.handleErrors(invController.buildAddClassification)
+);
+router.post(
+    "/add-classification",
+    inventoryValidation.createClassificationRules(),
+    inventoryValidation.checkNewClassificationData,
+    utilities.handleErrors(invController.createClassification)
 );
 
 module.exports = router;
