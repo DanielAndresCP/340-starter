@@ -109,7 +109,7 @@ Util.buildClassificationSelect = async function (classification_id = null) {
     for (const row of data.rows) {
         const isSelected =
             classification_id !== null &&
-            row.classification_id === classification_id;
+            row.classification_id == classification_id;
 
         options.push(
             `<option value="${row.classification_id}" 
