@@ -129,4 +129,22 @@ invCont.createClassification = async function (req, res, next) {
     }
 };
 
+// Show add vehicle form view
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.buildAddVehicle = async function (req, res, next) {
+    const nav = await utilities.getNav();
+    const classificationSelect = await utilities.buildClassificationSelect()
+
+    res.render("./inventory/add-inventory", {
+        title: "Add Vehicle to Inventory",
+        nav,
+        classificationSelect
+    });
+};
+
 module.exports = invCont;

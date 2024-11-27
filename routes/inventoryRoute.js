@@ -42,15 +42,22 @@ router.get(
 //                                                            Y8b d88P
 //                                                             "Y88P"
 router.get("/", utilities.handleErrors(invController.buildInventoryManagement));
+
 router.get(
     "/add-classification",
     utilities.handleErrors(invController.buildAddClassification)
 );
+
 router.post(
     "/add-classification",
     inventoryValidation.createClassificationRules(),
     inventoryValidation.checkNewClassificationData,
     utilities.handleErrors(invController.createClassification)
+);
+
+router.get(
+    "/add-inventory",
+    utilities.handleErrors(invController.buildAddVehicle)
 );
 
 module.exports = router;

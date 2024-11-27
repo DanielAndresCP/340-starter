@@ -581,11 +581,17 @@ nav a {
     padding-left: 1.3rem;
 }
 
+textarea:required:invalid,
+textarea:focus:invalid,
+select:required:invalid,
+select:focus:invalid,
 input:required:invalid,
 input:focus:invalid {
     background-color: var(--error-color);
 }
 
+textarea:required:valid,
+select:required:valid,
 input:required:valid {
     background-color: var(--success-color);
 }
@@ -611,7 +617,8 @@ input:required:valid {
 //                       Y8b d88P            
 //                        "Y88P"
 */
-.new-classification-form {
+.new-classification-form,
+.new-vehicle-form {
     max-width: min(300px, 100%);
     margin-top: 1rem;
     margin-left: auto;
@@ -622,49 +629,73 @@ input:required:valid {
     color: white;
 }
 
-.new-classification-form h1 {
+.new-classification-form h1,
+.new-vehicle-form h1 {
     margin-top: 0;
 }
 
-.new-classification-form form {
+.new-classification-form form,
+.new-vehicle-form form {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-.new-classification-form form input {
+.new-classification-form form input,
+.new-vehicle-form form textarea,
+.new-vehicle-form form select,
+.new-vehicle-form form input {
     margin-top: 0.5rem;
 }
 
 .new-classification-form form input,
-.new-classification-form form button[type="submit"] {
+.new-classification-form form button[type="submit"],
+.new-vehicle-form form input,
+.new-vehicle-form form textarea,
+.new-vehicle-form form select,
+.new-vehicle-form form button[type="submit"] {
     padding: 0.5rem 0.6rem;
     border-radius: 10px;
 }
 
-.new-classification-form a {
+.new-classification-form a,
+.new-vehicle-form a {
     color: white;
 }
 
-.new-classification-form form label {
+.new-classification-form form label,
+.new-vehicle-form form label {
     font-size: 1.3rem;
 }
 
 .new-classification-form form label,
 .new-classification-form form input,
-.new-classification-form form button[type="submit"] {
+.new-classification-form form button[type="submit"],
+.new-vehicle-form form label,
+.new-vehicle-form form input,
+.new-vehicle-form form textarea,
+.new-vehicle-form form select,
+.new-vehicle-form form button[type="submit"] {
     display: block;
     width: 100%;
 }
 
-.new-classification-form p {
+.new-classification-form p,
+.new-vehicle-form p {
     margin-bottom: 0;
 }
 
-.new-classification-form ul {
+.new-classification-form ul,
+.new-vehicle-form ul {
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 1.3rem;
+}
+
+/* New vehicle special styles */
+.new-vehicle-form form textarea,
+.new-vehicle-form form select {
+    font-family: var(--font-family);
 }
 
 /* 8888888888                      888                        

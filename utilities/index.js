@@ -100,6 +100,33 @@ Util.buildInventoryDetails = function (data) {
     return html;
 };
 
+// This builds a select with all the classifications as options
+Util.buildClassificationSelect = async function (classification_id = null) {
+    const data = await invModel.getClassifications();
+
+    const options = [`<option value="">Choose a Classification</option>`];
+
+    for (const row of data.rows) {
+        const isSelected =
+            classification_id !== null &&
+            row.classification_id === classification_id;
+
+        options.push(
+            `<option value="${row.classification_id}" 
+                ${isSelected ? "selected" : ""}
+            >
+                ${row.classification_name}
+            </option>`
+        );
+    }
+
+    return `
+    <select name="classification_id" required>
+        ${options.join("")}
+    </select>
+    `;
+};
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for
