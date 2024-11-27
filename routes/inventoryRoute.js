@@ -15,7 +15,10 @@ router.get(
 // Route to build the vehicle detail view
 router.get(
     "/detail/:invId",
-    utilities.handleErrors(invController.buildByInvId)
+    utilities.handleErrors(invController.buildInventoryManagement)
 );
+
+// Invemtory management view
+router.get("/", utilities.handleErrors(invController.buildInventoryManagement));
 
 module.exports = router;

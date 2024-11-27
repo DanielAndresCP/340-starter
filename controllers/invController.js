@@ -35,7 +35,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
  * @param {import("express").Response} res
  * @param {import("express").NextFunction} next
  */
-invCont.buildByInvId = async function (req, res, next) {
+invCont.buildInventoryManagement = async function (req, res, next) {
     const inv_id = req.params.invId;
     // on this case the data is an object (not array)
     const data = await invModel.getInventoryItemById(inv_id);
@@ -47,6 +47,22 @@ invCont.buildByInvId = async function (req, res, next) {
         title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
         nav,
         details,
+    });
+};
+
+// Inventory management view
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.buildInventoryManagement = async function (req, res, next) {
+    const nav = await utilities.getNav();
+
+    res.render("./inventory/management", {
+        title: "Inventory Management",
+        nav,
     });
 };
 
