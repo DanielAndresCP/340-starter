@@ -31,9 +31,12 @@ validate.checkNewClassificationData = async (req, res, next) => {
     const { classification_name } = req.body;
     let errors = validationResult(req);
 
-    errors.array().forEach((x) => {
-        req.flash("error", x.msg);
-    });
+    errors
+        .array()
+        .filter((x) => x.msg !== "Invalid value")
+        .forEach((x) => {
+            req.flash("error", x.msg);
+        });
 
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav();
@@ -71,7 +74,8 @@ validate.createVehicleRules = () => {
             .trim()
             .escape()
             .notEmpty()
-            .isLength({ min: 4, max: 4 }) // It has to be of exaclty 4 digits
+            .isLength({ min: 4 }) // It has to be of exaclty 4 digits
+            .withMessage("Please provide a valid year (4 digits).")
             .isNumeric({ no_symbols: true }) // It must be numeric, with no other symbols (., +, -)
             .withMessage("Please provide a valid year (4 digit numeric)."),
 
@@ -89,11 +93,15 @@ validate.createVehicleRules = () => {
             .escape()
             .notEmpty()
             .isLength({ min: 3 })
+            .withMessage("The image path is too short to be valid")
             .unescape()
             .isURL({ require_protocol: false, require_host: false })
+            .withMessage(
+                "The image path is not a valid URL. The URL can be absolute or relative"
+            )
             .contains(".")
             .withMessage(
-                "Please provide a valid image url (relative or absolute), it must be at least 3 characters long and include a dot (.) and a slash (/)."
+                "Please provide a valid image path (it must include the extension)."
             ),
 
         body("inv_thumbnail")
@@ -101,11 +109,15 @@ validate.createVehicleRules = () => {
             .escape()
             .notEmpty()
             .isLength({ min: 3 })
+            .withMessage("The thumbnail path is too short to be valid")
             .unescape()
             .isURL({ require_protocol: false, require_host: false })
+            .withMessage(
+                "The thumbnail path is not a valid URL. The URL can be absolute or relative"
+            )
             .contains(".")
             .withMessage(
-                "Please provide a valid thumbnail url (relative or absolute), it must be at least 3 characters long and include a dot (.) and a slash (/)."
+                "Please provide a valid thumbnail path (it must include the extension)."
             ),
 
         body("inv_price")
@@ -113,6 +125,7 @@ validate.createVehicleRules = () => {
             .escape()
             .notEmpty()
             .isLength({ min: 1 })
+            .withMessage("Please provide a price.")
             .isNumeric({ no_symbols: true }) // It must be numeric, with no other symbols (., +, -)
             .withMessage(
                 "Please provide a valid price, it must only contain numbers."
@@ -123,6 +136,7 @@ validate.createVehicleRules = () => {
             .escape()
             .notEmpty()
             .isLength({ min: 1 })
+            .withMessage("Please provide a mileage.")
             .isNumeric({ no_symbols: true }) // It must be numeric, with no other symbols (., +, -)
             .withMessage(
                 "Please provide a valid mileage, it must only contain numbers."
@@ -180,8 +194,6 @@ validate.checkNewVehicleData = async (req, res, next) => {
             .forEach((x) => {
                 req.flash("error", x.msg);
             });
-
-        console.log(errors.array());
 
         let nav = await utilities.getNav();
 
