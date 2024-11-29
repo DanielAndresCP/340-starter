@@ -89,12 +89,9 @@ validate.createVehicleRules = () => {
             .escape()
             .notEmpty()
             .isLength({ min: 3 })
-            .custom((x) => {
-                if (!x.includes(".") || !x.includes(".")) {
-                    throw new Error("Image must contain a dot and slash");
-                }
-                return true;
-            })
+            .unescape()
+            .isURL({ require_protocol: false, require_host: false })
+            .contains(".")
             .withMessage(
                 "Please provide a valid image url (relative or absolute), it must be at least 3 characters long and include a dot (.) and a slash (/)."
             ),
@@ -104,12 +101,9 @@ validate.createVehicleRules = () => {
             .escape()
             .notEmpty()
             .isLength({ min: 3 })
-            .custom((x) => {
-                if (!x.includes(".") || !x.includes(".")) {
-                    throw new Error("Thumbnail must contain a dot and slash");
-                }
-                return true;
-            })
+            .unescape()
+            .isURL({ require_protocol: false, require_host: false })
+            .contains(".")
             .withMessage(
                 "Please provide a valid thumbnail url (relative or absolute), it must be at least 3 characters long and include a dot (.) and a slash (/)."
             ),
@@ -186,6 +180,8 @@ validate.checkNewVehicleData = async (req, res, next) => {
             .forEach((x) => {
                 req.flash("error", x.msg);
             });
+
+        console.log(errors.array());
 
         let nav = await utilities.getNav();
 
