@@ -1,0 +1,28 @@
+<%- messages() %>
+
+<section class="new-classification-form">
+    <!-- prettier-igonre -->
+    <% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else { res.redirect('/') } %>
+
+    <form action="/inv/add-classification" method="post">
+        <label>
+            Classification Name:
+            <input
+                type="text"
+                name="classification_name"
+                id="classification_name"
+                required
+                pattern="[a-zA-Z]+"
+            />
+        </label>
+        <div>
+            <p>
+                The classification name must only contain alphabetic
+                characters
+            </p>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+</section>

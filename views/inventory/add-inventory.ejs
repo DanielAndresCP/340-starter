@@ -1,0 +1,113 @@
+<%- messages() %>
+
+<section class="new-vehicle-form">
+    <!-- prettier-igonre -->
+    <% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else { res.redirect('/') } %>
+
+    <form action="/inv/add-inventory" method="post">
+        <label>
+            Make:
+            <input
+                type="text"
+                name="inv_make"
+                value="<%- locals.inv_make %>"
+                required
+            />
+        </label>
+        <label>
+            Model:
+            <input
+                type="text"
+                name="inv_model"
+                value="<%- locals.inv_model %>"
+                required
+            />
+        </label>
+        <label>
+            Year:
+            <input
+                type="number"
+                name="inv_year"
+                placeholder="2023"
+                value="<%- locals.inv_year %>"
+                min="1000"
+                max="9999"
+                required
+            />
+        </label>
+        <label>
+            Description:
+            <!-- prettier-ignore -->
+            <textarea name="inv_description" required minlength="40"><%- locals.inv_description %></textarea>
+        </label>
+        <label>
+            Image:
+            <input
+                type="text"
+                name="inv_image"
+                value="<%- locals.inv_image %>"
+                pattern="^(?=.*\.+)(?=.*/+).*$"
+                minlength="3"
+                placeholder="/images/vehicles/no-image.png"
+                required
+            />
+        </label>
+        <label>
+            Thumbnail
+            <input
+                type="text"
+                name="inv_thumbnail"
+                pattern="^(?=.*\.+)(?=.*/+).*$"
+                minlength="3"
+                placeholder="/images/vehicles/no-image.png"
+                value="<%- locals.inv_thumbnail %>"
+                required
+            />
+        </label>
+        <label>
+            Price
+            <input
+                type="number"
+                name="inv_price"
+                placeholder="100"
+                value="<%- locals.inv_price %>"
+                required
+            />
+        </label>
+        <label>
+            Miles
+            <input
+                type="number"
+                name="inv_miles"
+                placeholder="1000"
+                value="<%- locals.inv_miles %>"
+                required
+            />
+        </label>
+        <label>
+            Color
+            <input
+                type="text"
+                name="inv_color"
+                value="<%- locals.inv_color %>"
+                required
+            />
+        </label>
+        <label> Classification <%- classificationSelect %> </label>
+
+        <div>
+            <p>Guide:</p>
+            <ul>
+                <li>The year must be 4 digits long</li>
+                <li>The description must be more than 40 characters long</li>
+                <li>
+                    The image URLs can be relative or absolute, must be at least
+                    3 characters long and include a dot (.) and slash (/)
+                </li>
+            </ul>
+        </div>
+        <button type="submit">Create</button>
+    </form>
+</section>
