@@ -161,7 +161,6 @@ validate.createVehicleRules = () => {
  * @returns
  */
 validate.checkNewVehicleData = async (req, res, next) => {
-    //TODO see if this is fixed after we do the team activity, currently we have to manually load the propertiues to locals
     const {
         inv_make,
         inv_model,
@@ -181,21 +180,6 @@ validate.checkNewVehicleData = async (req, res, next) => {
             classification_id
         );
 
-        // loading the locals:
-        res.locals = {
-            ...res.locals,
-            inv_make,
-            inv_model,
-            inv_year,
-            inv_description,
-            inv_image,
-            inv_thumbnail,
-            inv_price,
-            inv_miles,
-            inv_color,
-            classification_id,
-        };
-
         errors
             .array()
             .filter((x) => x.msg !== "Invalid value")
@@ -209,6 +193,16 @@ validate.checkNewVehicleData = async (req, res, next) => {
             title: "Add Vehicle to Inventory",
             nav,
             classificationSelect,
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_miles,
+            inv_color,
+            classification_id,
         });
         return;
     }
