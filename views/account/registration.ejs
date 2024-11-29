@@ -1,13 +1,5 @@
 <%- messages() %>
 
-<% if (errors) { %>
-<ul class="notice">
-    <% errors.array().forEach(error => { %>
-    <li><%= error.msg %></li>
-    <% }) %>
-</ul>
-<% } %>
-
 <section class="registration-form">
     <h1><%= title %></h1>
     <p>All fields are required.</p>
@@ -18,6 +10,7 @@
                 type="text"
                 name="account_firstname"
                 id="account_firstname"
+                value="<%- locals.account_firstname %>"
                 required
             />
         </label>
@@ -27,6 +20,7 @@
                 type="text"
                 name="account_lastname"
                 id="account_lastname"
+                value="<%- locals.account_lastname %>"
                 required
             />
         </label>
@@ -36,6 +30,7 @@
                 type="email"
                 name="account_email"
                 id="account_email"
+                value="<%- locals.account_email %>"
                 required
             />
         </label>
