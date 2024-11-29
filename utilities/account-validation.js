@@ -4,6 +4,71 @@ const accountModel = require("../models/account-model");
 const validate = {};
 
 /*  **********************************
+ *  Login Data Validation Rules
+ * ********************************* */
+validate.loginRules = () => {
+    return [
+        // valid email is required
+        body("account_email")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isEmail()
+            .normalizeEmail()
+            .withMessage("A valid email is required."),
+
+        // password is required and must be strong password
+        body("account_password")
+            .trim()
+            .notEmpty()
+            .isStrongPassword({
+                minLength: 12,
+                minLowercase: 1,
+                minUppercase: 1,
+                minNumbers: 1,
+                minSymbols: 1,
+            })
+            .withMessage("Password does not meet requirements."),
+    ];
+};
+
+/* ******************************
+ * Check data and return errors or continue to Login
+ * ***************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ * @returns
+ */
+validate.checkLoginData = async (req, res, next) => {
+    const { account_email } = req.body;
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        errors
+            .array()
+            .filter((x) => x.msg !== "Invalid value")
+            .forEach((x) => {
+                req.flash("error", x.msg);
+            });
+    }
+
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav();
+        res.render("account/login", {
+            title: "Login",
+            nav,
+            account_email,
+        });
+        return;
+    }
+
+    next();
+};
+
+/*  **********************************
  *  Registration Data Validation Rules
  * ********************************* */
 validate.registrationRules = () => {
@@ -73,9 +138,12 @@ validate.checkRegData = async (req, res, next) => {
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        errors.array().filter((x) => x.msg !== "Invalid value").forEach((x) => {
-            req.flash("error", x.msg);
-        });
+        errors
+            .array()
+            .filter((x) => x.msg !== "Invalid value")
+            .forEach((x) => {
+                req.flash("error", x.msg);
+            });
     }
 
     if (!errors.isEmpty()) {
