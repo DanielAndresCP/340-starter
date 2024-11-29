@@ -1,5 +1,6 @@
 const utilities = require("../utilities/index");
 const accountModel = require("../models/account-model");
+const bcrypt = require("bcryptjs");
 
 /* ****************************************
  *  Deliver login view
@@ -53,11 +54,27 @@ async function registerAccount(req, res) {
         account_password,
     } = req.body;
 
+    // This hashes the password for security
+    let hashedPassword;
+    try {
+        // await is not needed, but the course includes it
+        hashedPassword = await bcrypt.hashSync(account_password, 10);
+    } catch (error) {
+        req.flash(
+            "error",
+            "Sorry, there was an error processing the registration"
+        );
+        res.status(500).render("account/register", {
+            title: "Registration",
+            nav,
+        });
+    }
+
     const regResult = await accountModel.registerAccount(
         account_firstname,
         account_lastname,
         account_email,
-        account_password
+        hashedPassword
     );
 
     if (regResult) {
