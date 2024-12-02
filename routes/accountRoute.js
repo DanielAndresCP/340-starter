@@ -8,14 +8,17 @@ const accountValidation = require("../utilities/account-validation");
 const router = new express.Router();
 const accountController = require("../controllers/accountController");
 
+router.get(
+    "/",
+    utilities.handleErrors(accountController.buildAccountPage)
+);
+
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.post(
     "/login",
     accountValidation.loginRules(),
     accountValidation.checkLoginData,
-    (req, res) => {
-        res.status(200).send("login process");
-    }
+    utilities.handleErrors(accountController.accountLogin)
 );
 
 router.get(

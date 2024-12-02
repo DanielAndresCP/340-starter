@@ -1,5 +1,7 @@
 const invModel = require("../models/inventory-model");
 const Util = {};
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 /* ************************
  * Constructs the nav HTML unordered list (I actually use a elements, so I will modify the code from the course)
@@ -125,6 +127,36 @@ Util.buildClassificationSelect = async function (classification_id = null) {
         ${options.join("")}
     </select>
     `;
+};
+
+/* ****************************************
+ * Middleware to check token validity
+ **************************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+Util.checkJWTToken = (req, res, next) => {
+    if (req.cookies.jwt) {
+        jwt.verify(
+            req.cookies.jwt,
+            process.env.ACCESS_TOKEN_SECRET,
+            function (err, accountData) {
+                if (err) {
+                    req.flash("error", "Please log in");
+                    res.clearCookie("jwt");
+                    return res.redirect("/account/login");
+                }
+                res.locals.accountData = accountData;
+                res.locals.loggedin = 1;
+                next();
+            }
+        );
+    } else {
+        next();
+    }
 };
 
 /* ****************************************
