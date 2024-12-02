@@ -71,10 +71,11 @@ invCont.buildInventoryItem = async function (req, res, next) {
  */
 invCont.buildInventoryManagement = async function (req, res, next) {
     const nav = await utilities.getNav();
-
+    const classificationSelect = await utilities.buildClassificationSelect();
     res.render("./inventory/management", {
         title: "Inventory Management",
         nav,
+        classificationSelect,
     });
 };
 
@@ -202,6 +203,37 @@ invCont.createVehicle = async function (req, res, next) {
             nav,
             classificationSelect,
         });
+    }
+};
+
+//        d8888  8888888b.   8888888
+//       d88888  888   Y88b    888
+//      d88P888  888    888    888
+//     d88P 888  888   d88P    888
+//    d88P  888  8888888P"     888
+//   d88P   888  888           888
+//  d8888888888  888           888
+// d88P     888  888         8888888
+//
+//
+//
+
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.getInventoryJSON = async (req, res, next) => {
+    const classification_id = parseInt(req.params.classification_id);
+    const invData = await invModel.getInventoryByClassificationId(
+        classification_id
+    );
+
+    if (invData[0].inv_id) {
+        return res.json(invData);
+    } else {
+        next(new Error("No data returned"));
     }
 };
 

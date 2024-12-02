@@ -698,6 +698,48 @@ input:required:valid {
     font-family: var(--font-family);
 }
 
+/* 8888888                           888b     d888                                     888     
+//   888                             8888b   d8888                                     888     
+//   888                             88888b.d88888                                     888     
+//   888    88888b.   888  888       888Y88888P888  88888b.    .d88b.   88888b.d88b.   888888  
+//   888    888 "88b  888  888       888 Y888P 888  888 "88b  d88P"88b  888 "888 "88b  888     
+//   888    888  888  Y88  88P       888  Y8P  888  888  888  888  888  888  888  888  888     
+//   888    888  888   Y8bd8P        888   "   888  888  888  Y88b 888  888  888  888  Y88b.   
+// 8888888  888  888    Y88P         888       888  888  888   "Y88888  888  888  888   "Y888  
+//                                                                 888                         
+//                                                            Y8b d88P                         
+//                                                             "Y88P"
+*/
+table#inventoryDisplay {
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+table#inventoryDisplay thead tr {
+    background-color: var(--success-color);
+}
+
+table#inventoryDisplay tbody tr:nth-child(even) {
+    background-color: #d6d6d6;
+}
+
+table#inventoryDisplay tr td {
+    padding: 5px;
+    border-top: 1px solid var(--neutral-color);
+}
+
+table#inventoryDisplay tr:last-child td {
+    border-bottom: 1px solid var(--neutral-color);
+}
+
+table#inventoryDisplay td {
+    border-left: 1px solid var(--neutral-color);
+}
+
+table#inventoryDisplay td:last-child {
+    border-right: 1px solid var(--neutral-color);
+}
+
 /* 8888888888                      888                        
 // 888                             888                        
 // 888                             888                        

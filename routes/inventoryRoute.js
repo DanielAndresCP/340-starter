@@ -67,4 +67,10 @@ router.post(
     utilities.handleErrors(invController.createVehicle)
 );
 
+// Api routes
+router.get(
+    "/getInventory/:classification_id",
+    utilities.handleErrors(invController.getInventoryJSON)
+);
+
 module.exports = router;
