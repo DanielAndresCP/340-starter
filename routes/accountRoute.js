@@ -10,6 +10,7 @@ const accountController = require("../controllers/accountController");
 
 router.get(
     "/",
+    utilities.checkLogin,
     utilities.handleErrors(accountController.buildAccountPage)
 );
 
