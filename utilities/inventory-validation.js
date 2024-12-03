@@ -218,4 +218,67 @@ validate.checkNewVehicleData = async (req, res, next) => {
     next();
 };
 
+/* ******************************
+ * Check data and return errors or continue editing the data
+ * ***************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ * @returns
+ */
+validate.checkUpdateData = async (req, res, next) => {
+    const {
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id,
+        inv_id,
+    } = req.body;
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        const classificationSelect = await utilities.buildClassificationSelect(
+            classification_id
+        );
+
+        errors
+            .array()
+            .filter((x) => x.msg !== "Invalid value")
+            .forEach((x) => {
+                req.flash("error", x.msg);
+            });
+
+        let nav = await utilities.getNav();
+
+        const itemName = `${inv_make} ${inv_model}`;
+        res.render("./inventory/edit-inventory", {
+            title: `Edit ${itemName}`,
+            nav,
+            classificationSelect,
+            inv_id,
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_miles,
+            inv_color,
+            classification_id,
+        });
+        return;
+    }
+
+    next();
+};
+
 module.exports = validate;

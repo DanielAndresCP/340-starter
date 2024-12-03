@@ -206,6 +206,112 @@ invCont.createVehicle = async function (req, res, next) {
     }
 };
 
+// This builds the edit vehicle page
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.builEditVehiclePage = async function (req, res, next) {
+    const nav = await utilities.getNav();
+
+    const inventory_id = parseInt(req.params.inventoryId);
+    const itemData = await invModel.getInventoryItemById(inventory_id);
+
+    const classificationSelect = await utilities.buildClassificationSelect(
+        itemData.classification_id
+    );
+
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+    res.render("./inventory/edit-inventory", {
+        title: `Edit ${itemName}`,
+        nav,
+        classificationSelect,
+        inv_id: itemData.inv_id,
+        inv_make: itemData.inv_make,
+        inv_model: itemData.inv_model,
+        inv_year: itemData.inv_year,
+        inv_description: itemData.inv_description,
+        inv_image: itemData.inv_image,
+        inv_thumbnail: itemData.inv_thumbnail,
+        inv_price: itemData.inv_price,
+        inv_miles: itemData.inv_miles,
+        inv_color: itemData.inv_color,
+        classification_id: itemData.classification_id,
+    });
+};
+
+// Update a vehicle (receiving post request)
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.updateVehicle = async function (req, res, next) {
+    const {
+        inv_id,
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id,
+    } = req.body;
+
+    const updateResult = await invModel.updateInventory({
+        inv_id,
+        inv_make,
+        inv_model,
+        inv_year,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_miles,
+        inv_color,
+        classification_id,
+    });
+
+    if (updateResult) {
+        req.flash(
+            "notice",
+            `The vehicle ${updateResult.inv_make} ${updateResult.inv_model} was updated succesfully`
+        );
+        res.redirect("/inv/");
+    } else {
+        let nav = await utilities.getNav();
+        const classificationSelect = await utilities.buildClassificationSelect(
+            classification_id
+        );
+        const itemName = `${inv_make} ${inv_model}`;
+        req.flash("error", `Sorry, the update of ${itemName} failed.`);
+
+        res.status(501).render("./inventory/edit-inventory", {
+            title: `Edit ${itemName}`,
+            nav,
+            classificationSelect,
+            inv_id,
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_miles,
+            inv_color,
+            classification_id,
+        });
+    }
+};
+
 //        d8888  8888888b.   8888888
 //       d88888  888   Y88b    888
 //      d88P888  888    888    888
@@ -214,9 +320,6 @@ invCont.createVehicle = async function (req, res, next) {
 //   d88P   888  888           888
 //  d8888888888  888           888
 // d88P     888  888         8888888
-//
-//
-//
 
 /**
  *

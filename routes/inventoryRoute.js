@@ -67,6 +67,20 @@ router.post(
     utilities.handleErrors(invController.createVehicle)
 );
 
+// Build the edit vehicle page
+router.get(
+    "/edit/:inventoryId",
+    utilities.handleErrors(invController.builEditVehiclePage)
+);
+
+// Update a vehicle
+router.post(
+    "/edit",
+    inventoryValidation.createVehicleRules(),
+    inventoryValidation.checkUpdateData,
+    utilities.handleErrors(invController.updateVehicle)
+);
+
 // Api routes
 router.get(
     "/getInventory/:classification_id",
