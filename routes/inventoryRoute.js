@@ -81,6 +81,18 @@ router.post(
     utilities.handleErrors(invController.updateVehicle)
 );
 
+// Build the delete vehicle view
+router.get(
+    "/delete/:inventoryId",
+    utilities.handleErrors(invController.buildDeleteVehiclePage)
+);
+
+// Delete a vehicle (receiveing a form submission)
+router.post(
+    "/delete",
+    utilities.handleErrors(invController.deleteVehicle)
+);
+
 // Api routes
 router.get(
     "/getInventory/:classification_id",
