@@ -312,6 +312,58 @@ invCont.updateVehicle = async function (req, res, next) {
     }
 };
 
+// This builds the vehicle deletion confirmation page
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.buildDeleteVehiclePage = async function (req, res, next) {
+    const nav = await utilities.getNav();
+
+    const inventory_id = parseInt(req.params.inventoryId);
+    const itemData = await invModel.getInventoryItemById(inventory_id);
+
+    const itemName = `${itemData.inv_make} ${itemData.inv_model}`;
+
+    res.render("./inventory/delete-confirm", {
+        title: `Delete ${itemName}`,
+        nav,
+        inv_id: itemData.inv_id,
+        inv_make: itemData.inv_make,
+        inv_model: itemData.inv_model,
+        inv_year: itemData.inv_year,
+        inv_price: itemData.inv_price,
+    });
+};
+
+// Delete a vehicle (receiving post request)
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+invCont.deleteVehicle = async function (req, res, next) {
+    const inv_id = parseInt(req.body.inv_id);
+
+    const deleteResult = await invModel.deleteInventory(inv_id);
+
+    if (deleteResult) {
+        req.flash(
+            "notice",
+            `The vehicle ${deleteResult.inv_make} ${deleteResult.inv_model} was succesfully deleted`
+        );
+        res.redirect("/inv/");
+    } else {
+        const itemName = `${inv_make} ${inv_model}`;
+        req.flash("error", `Sorry, the deletion of ${itemName} failed.`);
+
+        res.redirect(`/inv/delete/${inv_id}`);
+    }
+};
+
 //        d8888  8888888b.   8888888
 //       d88888  888   Y88b    888
 //      d88P888  888    888    888
