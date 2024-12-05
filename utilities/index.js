@@ -177,6 +177,64 @@ Util.checkLogin = (req, res, next) => {
     }
 };
 
+/**
+ * Generates the authorization check middleware
+ * @param {string} requiredAuthLevel The required authorization level (Client, Employee, Admin)
+ * @returns {Function} The middleware function with the correct authorization check
+ */
+Util.checkAuthorization = function (requiredAuthLevel) {
+    return (req, res, next) => {
+        // If they are not logged in, we tell them to log in
+        if (!res.locals.loggedin) {
+            req.flash("notice", "Please log in.");
+            return res.redirect(302, "/account/login");
+        }
+
+        // If they are not authorized, we tell them that they are not authorized
+        // And send them to the login view in case they have access on another account
+        if (
+            !Util.isAuthorized(
+                res.locals.accountData.account_type,
+                requiredAuthLevel
+            )
+        ) {
+            req.flash(
+                "notice",
+                "You are not authorized to this part of the application."
+            );
+            return res.redirect(302, "/account/login");
+        }
+
+        // If all is good, we continue normally
+        next();
+    };
+};
+
+/**
+ *  Compares an account level against a required level to see if the user ius authorized
+ * @param {string} level The level to compare
+ * @param {string} requiredLevel The required level to be authorized
+ * @returns {boolean} True if they authorized
+ */
+Util.isAuthorized = function (level, requiredLevel) {
+    const levels = ["Client", "Employee", "Admin"];
+
+    const levelIndex = levels.indexOf(level);
+    const requiredLevelIndex = levels.indexOf(requiredLevel);
+
+    // If the level does not exist
+    if (levelIndex === -1) {
+        return false;
+    }
+
+    // If the level is not high enough
+    if (levelIndex < requiredLevelIndex) {
+        return false;
+    }
+
+    return true;
+};
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for

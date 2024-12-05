@@ -41,15 +41,21 @@ router.get(
 //                                                                 888
 //                                                            Y8b d88P
 //                                                             "Y88P"
-router.get("/", utilities.handleErrors(invController.buildInventoryManagement));
+router.get(
+    "/",
+    utilities.checkAuthorization("Employee"),
+    utilities.handleErrors(invController.buildInventoryManagement)
+);
 
 router.get(
     "/add-classification",
+    utilities.checkAuthorization("Employee"),
     utilities.handleErrors(invController.buildAddClassification)
 );
 
 router.post(
     "/add-classification",
+    utilities.checkAuthorization("Employee"),
     inventoryValidation.createClassificationRules(),
     inventoryValidation.checkNewClassificationData,
     utilities.handleErrors(invController.createClassification)
@@ -57,11 +63,13 @@ router.post(
 
 router.get(
     "/add-inventory",
+    utilities.checkAuthorization("Employee"),
     utilities.handleErrors(invController.buildAddVehicle)
 );
 
 router.post(
     "/add-inventory",
+    utilities.checkAuthorization("Employee"),
     inventoryValidation.createVehicleRules(),
     inventoryValidation.checkNewVehicleData,
     utilities.handleErrors(invController.createVehicle)
@@ -70,12 +78,14 @@ router.post(
 // Build the edit vehicle page
 router.get(
     "/edit/:inventoryId",
+    utilities.checkAuthorization("Employee"),
     utilities.handleErrors(invController.builEditVehiclePage)
 );
 
 // Update a vehicle
 router.post(
     "/edit",
+    utilities.checkAuthorization("Employee"),
     inventoryValidation.createVehicleRules(),
     inventoryValidation.checkUpdateData,
     utilities.handleErrors(invController.updateVehicle)
@@ -84,12 +94,14 @@ router.post(
 // Build the delete vehicle view
 router.get(
     "/delete/:inventoryId",
+    utilities.checkAuthorization("Employee"),
     utilities.handleErrors(invController.buildDeleteVehiclePage)
 );
 
 // Delete a vehicle (receiveing a form submission)
 router.post(
     "/delete",
+    utilities.checkAuthorization("Employee"),
     utilities.handleErrors(invController.deleteVehicle)
 );
 
