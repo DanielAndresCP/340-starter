@@ -177,10 +177,37 @@ async function accountLogin(req, res) {
     }
 }
 
+/* ****************************************
+ *  Deliver account update page view
+ * *************************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function buildAccountUpdatePage(req, res, next) {
+    const accountId = parseInt(req.params.account_id);
+    let nav = await utilities.getNav();
+
+    const { account_firstname, account_lastname, account_email } =
+        await accountModel.getAccountById(accountId);
+
+    res.render("account/update", {
+        title: "Update Account Page",
+        nav,
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id: accountId,
+    });
+}
+
 module.exports = {
     buildLogin,
     buildRegistration,
     registerAccount,
     accountLogin,
     buildAccountPage,
+    buildAccountUpdatePage,
 };

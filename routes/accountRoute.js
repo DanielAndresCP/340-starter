@@ -35,4 +35,12 @@ router.post(
     utilities.handleErrors(accountController.registerAccount)
 );
 
+
+// Account information update page
+router.get(
+    "/update/:account_id",
+    utilities.handleErrors(accountController.buildAccountUpdatePage)
+);
+
+
 module.exports = router;
