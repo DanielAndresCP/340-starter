@@ -353,7 +353,7 @@ invCont.deleteVehicle = async function (req, res, next) {
     if (deleteResult) {
         req.flash(
             "notice",
-            `The vehicle ${deleteResult.inv_make} ${deleteResult.inv_model} was succesfully deleted`
+            `The vehicle was succesfully deleted`
         );
         res.redirect("/inv/");
     } else {
