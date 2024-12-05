@@ -1,0 +1,63 @@
+<%- messages() %>
+
+<section class="new-vehicle-form">
+    <!-- prettier-igonre -->
+    <% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else { res.redirect('/') } %>
+
+    <form action="/inv/delete" method="post">
+        <label>
+            Make:
+            <input
+                type="text"
+                name="inv_make"
+                value="<%- locals.inv_make %>"
+                required
+                readonly
+            />
+        </label>
+        <label>
+            Model:
+            <input
+                type="text"
+                name="inv_model"
+                value="<%- locals.inv_model %>"
+                required
+                readonly
+            />
+        </label>
+        <label>
+            Year:
+            <input
+                type="number"
+                name="inv_year"
+                placeholder="2023"
+                value="<%- locals.inv_year %>"
+                min="1000"
+                max="9999"
+                required
+                readonly
+            />
+        </label>
+        <label>
+            Price
+            <input
+                type="number"
+                name="inv_price"
+                placeholder="100"
+                value="<%- locals.inv_price %>"
+                required
+                readonly
+            />
+        </label>
+
+        <div>
+            <p>Confirm Deletion - The delete is permanent.</p>
+        </div>
+
+        <input type="hidden" name="inv_id" value="<%= locals.inv_id %>" />
+
+        <button type="submit">Delete</button>
+    </form>
+</section>
