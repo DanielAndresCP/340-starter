@@ -284,7 +284,7 @@ invCont.updateVehicle = async function (req, res, next) {
             "notice",
             `The vehicle ${updateResult.inv_make} ${updateResult.inv_model} was updated succesfully`
         );
-        res.redirect("/inv/");
+        res.redirect(303, "/inv/");
     } else {
         let nav = await utilities.getNav();
         const classificationSelect = await utilities.buildClassificationSelect(
@@ -353,7 +353,7 @@ invCont.deleteVehicle = async function (req, res, next) {
     if (deleteResult) {
         req.flash("notice", "The vehicle was succesfully deleted");
 
-        res.redirect("/inv/");
+        res.redirect(303, "/inv/");
     } else {
         const itemName = `${inv_make} ${inv_model}`;
         req.flash("error", `Sorry, the deletion of ${itemName} failed.`);
