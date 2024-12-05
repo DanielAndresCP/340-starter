@@ -161,7 +161,7 @@ async function accountLogin(req, res) {
             }
             return res.redirect("/account/");
         } else {
-            req.flash("error", "Please check your credentials and ty again");
+            req.flash("error", "Please check your credentials and try again");
             res.status(400).render("account/login", {
                 title: "Login",
                 nav,
