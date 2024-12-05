@@ -18,6 +18,10 @@ async function buildAccountPage(req, res, next) {
     res.render("account/account", {
         title: "Account Page",
         nav,
+        isEmployee: utilities.isAuthorized(
+            res.locals.accountData.account_type,
+            "Employee"
+        ),
     });
 }
 

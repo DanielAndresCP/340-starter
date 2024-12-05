@@ -1,5 +1,12 @@
 <%- messages() %>
 
-<section>
+<section class="account-page">
+    <h2>Welcome <%- locals.accountData.account_firstname %></h2>
     <p>You're logged in</p>
+    <p><a href="/account/update/<%- locals.accountData.account_id %>">Update Account Information</a></p>
+
+    <% if (locals.isEmployee) { %>
+    <h3>Inventory Management</h3>
+    <p><a href="/inv/">Go to inventory Management Page</a></p>
+    <% } %>
 </section>
