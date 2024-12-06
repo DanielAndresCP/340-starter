@@ -1,0 +1,77 @@
+<%- messages() %>
+
+<!-- prettier-ignore -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %>
+
+<section class="account-update-information-form">
+    <h2>Change Information</h2>
+    <form action="/account/update-account-information" method="post">
+        <label>
+            First name:
+            <input
+                type="text"
+                name="account_firstname"
+                value="<%- locals.account_firstname %>"
+                required
+            />
+        </label>
+        <label>
+            Last name:
+            <input
+                type="text"
+                name="account_lastname"
+                value="<%- locals.account_lastname %>"
+                required
+            />
+        </label>
+        <label>
+            Email:
+            <input
+                type="email"
+                name="account_email"
+                id="account_email"
+                value="<%- locals.account_email %>"
+                required
+            />
+        </label>
+        <input
+            type="hidden"
+            name="account_id"
+            value="<%- locals.account_id %>"
+        />
+        <button type="submit">Update Information</button>
+    </form>
+</section>
+
+<section class="account-update-information-form">
+    <h2>Change Password</h2>
+    <form action="/account/update-account-password" method="post">
+        <label>
+            Password:
+            <input
+                type="password"
+                name="account_password"
+                required
+                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+            />
+        </label>
+        <input
+            type="hidden"
+            name="account_id"
+            value="<%- locals.account_id %>"
+        />
+        <div>
+            <p>Once you submit this form, the password will be changed.</p>
+            <p>Password Requirements:</p>
+            <ul>
+                <li>Must be 12 characters in length, minimum</li>
+                <li>Must contain at least 1 capital letter</li>
+                <li>Must contain at least 1 number</li>
+                <li>Must contain at least 1 special character</li>
+            </ul>
+        </div>
+        <button type="submit">Update Password</button>
+    </form>
+</section>

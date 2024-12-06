@@ -18,6 +18,10 @@ async function buildAccountPage(req, res, next) {
     res.render("account/account", {
         title: "Account Page",
         nav,
+        isEmployee: utilities.isAuthorized(
+            res.locals.accountData.account_type,
+            "Employee"
+        ),
     });
 }
 
@@ -161,7 +165,7 @@ async function accountLogin(req, res) {
             }
             return res.redirect("/account/");
         } else {
-            req.flash("error", "Please check your credentials and ty again");
+            req.flash("error", "Please check your credentials and try again");
             res.status(400).render("account/login", {
                 title: "Login",
                 nav,
@@ -173,10 +177,182 @@ async function accountLogin(req, res) {
     }
 }
 
+/* ****************************************
+ *  Deliver account update page view
+ * *************************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function buildAccountUpdatePage(req, res, next) {
+    const accountId = parseInt(req.params.account_id);
+    let nav = await utilities.getNav();
+
+    const { account_firstname, account_lastname, account_email } =
+        await accountModel.getAccountById(accountId);
+
+    res.render("account/update", {
+        title: "Update Account Page",
+        nav,
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id: accountId,
+    });
+}
+
+/* ****************************************
+ *  Update account data
+ * *************************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function updateAccountData(req, res, next) {
+    let nav = await utilities.getNav();
+
+    const account_id = parseInt(req.body.account_id);
+    const { account_firstname, account_lastname, account_email } = req.body;
+
+    const updateResult = await accountModel.updateAccount({
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id,
+    });
+
+    // This is just to check if there is data,
+    // and we use the email because the id may be falsy
+    if (updateResult.account_email) {
+        req.flash(
+            "notice",
+            `Your account information was updated succesfully.`
+        );
+
+        const hourInMiliseconds = 1000 * 60 * 60;
+        delete updateResult.account_password;
+        const accessToken = jwt.sign(
+            updateResult,
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: hourInMiliseconds }
+        );
+        if (process.env.NODE_ENV === "development") {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                maxAge: hourInMiliseconds,
+            });
+        } else {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                secure: true,
+                maxAge: hourInMiliseconds,
+            });
+        }
+
+        return res.redirect(302, "/account/");
+    } else {
+        req.flash("error", "Sorry, the update failed.");
+
+        return res.render("account/update", {
+            title: "Update Account Page",
+            nav,
+            account_firstname,
+            account_lastname,
+            account_email,
+            account_id,
+        });
+    }
+}
+
+/* ****************************************
+ *  Update account password
+ * *************************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function updateAccountPassword(req, res, next) {
+    const account_id = parseInt(req.body.account_id);
+    const { account_password } = req.body;
+
+    try {
+        // await is not needed, but the course includes it
+        hashedPassword = await bcrypt.hashSync(account_password, 10);
+    } catch (error) {
+        req.flash("error", "Sorry, the update failed.");
+
+        return res.redirect(302, `/account/update/${account_id}`);
+    }
+
+    const updateResult = await accountModel.updateAccountPassword({
+        account_password: hashedPassword,
+        account_id,
+    });
+
+    // This is just to check if there is data,
+    // and we use the email because the id may be falsy
+    if (updateResult.account_email) {
+        console.log("******************** inside update resilt if");
+
+        req.flash("notice", `Your account password was updated succesfully.`);
+
+        const hourInMiliseconds = 1000 * 60 * 60;
+        delete updateResult.account_password;
+        const accessToken = jwt.sign(
+            updateResult,
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: hourInMiliseconds }
+        );
+        if (process.env.NODE_ENV === "development") {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                maxAge: hourInMiliseconds,
+            });
+        } else {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                secure: true,
+                maxAge: hourInMiliseconds,
+            });
+        }
+        console.log("******************** jwt generated and set");
+
+        return res.redirect(302, "/account/");
+    } else {
+        console.log("******************** inside update resilt else");
+        req.flash("error", "Sorry, the update failed.");
+
+        return res.redirect(302, `/account/update/${account_id}`);
+    }
+}
+
+// Logout the user
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function logout(req, res, next) {
+    // By deleting the cookie the user is logged out
+    res.clearCookie("jwt");
+    res.redirect(302, "/");
+}
+
 module.exports = {
     buildLogin,
     buildRegistration,
     registerAccount,
     accountLogin,
     buildAccountPage,
+    buildAccountUpdatePage,
+    updateAccountData,
+    updateAccountPassword,
+    logout,
 };
