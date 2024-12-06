@@ -280,7 +280,6 @@ async function updateAccountData(req, res, next) {
 async function updateAccountPassword(req, res, next) {
     const account_id = parseInt(req.body.account_id);
     const { account_password } = req.body;
-    
 
     try {
         // await is not needed, but the course includes it
@@ -292,7 +291,7 @@ async function updateAccountPassword(req, res, next) {
     }
 
     const updateResult = await accountModel.updateAccountPassword({
-        account_password:hashedPassword,
+        account_password: hashedPassword,
         account_id,
     });
 
@@ -300,7 +299,7 @@ async function updateAccountPassword(req, res, next) {
     // and we use the email because the id may be falsy
     if (updateResult.account_email) {
         console.log("******************** inside update resilt if");
-        
+
         req.flash("notice", `Your account password was updated succesfully.`);
 
         const hourInMiliseconds = 1000 * 60 * 60;
@@ -333,6 +332,19 @@ async function updateAccountPassword(req, res, next) {
     }
 }
 
+// Logout the user
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function logout(req, res, next) {
+    // By deleting the cookie the user is logged out
+    res.clearCookie("jwt");
+    res.redirect(302, "/");
+}
+
 module.exports = {
     buildLogin,
     buildRegistration,
@@ -342,4 +354,5 @@ module.exports = {
     buildAccountUpdatePage,
     updateAccountData,
     updateAccountPassword,
+    logout,
 };
