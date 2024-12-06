@@ -86,6 +86,8 @@ app.use(async (err, req, res, next) => {
     const nav = await utilities.getNav();
 
     console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+    console.log(err);
+    
 
     const message =
         err.status == 404

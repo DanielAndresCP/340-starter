@@ -35,12 +35,27 @@ router.post(
     utilities.handleErrors(accountController.registerAccount)
 );
 
-
 // Account information update page
 router.get(
     "/update/:account_id",
+    utilities.checkLogin,
     utilities.handleErrors(accountController.buildAccountUpdatePage)
 );
 
+// Account information update (receive post request)
+router.post(
+    "/update-account-information",
+    accountValidation.updateDataRules(),
+    accountValidation.checkUpdateData,
+    utilities.handleErrors(accountController.updateAccountData)
+);
+
+// Account password update (receive post request)
+router.post(
+    "/update-account-password",
+    accountValidation.updatePasswordRules(),
+    accountValidation.checkPasswordData,
+    utilities.handleErrors(accountController.updateAccountPassword)
+);
 
 module.exports = router;

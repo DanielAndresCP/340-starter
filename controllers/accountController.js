@@ -203,6 +203,136 @@ async function buildAccountUpdatePage(req, res, next) {
     });
 }
 
+/* ****************************************
+ *  Update account data
+ * *************************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function updateAccountData(req, res, next) {
+    let nav = await utilities.getNav();
+
+    const account_id = parseInt(req.body.account_id);
+    const { account_firstname, account_lastname, account_email } = req.body;
+
+    const updateResult = await accountModel.updateAccount({
+        account_firstname,
+        account_lastname,
+        account_email,
+        account_id,
+    });
+
+    // This is just to check if there is data,
+    // and we use the email because the id may be falsy
+    if (updateResult.account_email) {
+        req.flash(
+            "notice",
+            `Your account information was updated succesfully.`
+        );
+
+        const hourInMiliseconds = 1000 * 60 * 60;
+        delete updateResult.account_password;
+        const accessToken = jwt.sign(
+            updateResult,
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: hourInMiliseconds }
+        );
+        if (process.env.NODE_ENV === "development") {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                maxAge: hourInMiliseconds,
+            });
+        } else {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                secure: true,
+                maxAge: hourInMiliseconds,
+            });
+        }
+
+        return res.redirect(302, "/account/");
+    } else {
+        req.flash("error", "Sorry, the update failed.");
+
+        return res.render("account/update", {
+            title: "Update Account Page",
+            nav,
+            account_firstname,
+            account_lastname,
+            account_email,
+            account_id,
+        });
+    }
+}
+
+/* ****************************************
+ *  Update account password
+ * *************************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ */
+async function updateAccountPassword(req, res, next) {
+    const account_id = parseInt(req.body.account_id);
+    const { account_password } = req.body;
+    
+
+    try {
+        // await is not needed, but the course includes it
+        hashedPassword = await bcrypt.hashSync(account_password, 10);
+    } catch (error) {
+        req.flash("error", "Sorry, the update failed.");
+
+        return res.redirect(302, `/account/update/${account_id}`);
+    }
+
+    const updateResult = await accountModel.updateAccountPassword({
+        account_password:hashedPassword,
+        account_id,
+    });
+
+    // This is just to check if there is data,
+    // and we use the email because the id may be falsy
+    if (updateResult.account_email) {
+        console.log("******************** inside update resilt if");
+        
+        req.flash("notice", `Your account password was updated succesfully.`);
+
+        const hourInMiliseconds = 1000 * 60 * 60;
+        delete updateResult.account_password;
+        const accessToken = jwt.sign(
+            updateResult,
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: hourInMiliseconds }
+        );
+        if (process.env.NODE_ENV === "development") {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                maxAge: hourInMiliseconds,
+            });
+        } else {
+            res.cookie("jwt", accessToken, {
+                httpOnly: true,
+                secure: true,
+                maxAge: hourInMiliseconds,
+            });
+        }
+        console.log("******************** jwt generated and set");
+
+        return res.redirect(302, "/account/");
+    } else {
+        console.log("******************** inside update resilt else");
+        req.flash("error", "Sorry, the update failed.");
+
+        return res.redirect(302, `/account/update/${account_id}`);
+    }
+}
+
 module.exports = {
     buildLogin,
     buildRegistration,
@@ -210,4 +340,6 @@ module.exports = {
     accountLogin,
     buildAccountPage,
     buildAccountUpdatePage,
+    updateAccountData,
+    updateAccountPassword,
 };
