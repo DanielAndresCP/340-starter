@@ -417,6 +417,35 @@ nav a {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+.comments-container {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.comment {
+    background-color: #f5e6d3;
+    padding: 1rem;
+}
+
+.comment > div {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment > div div:first-child {
+    flex-grow: 1;
+}
+
+.comment .comment-author {
+    margin: 0;
+}
+
+.comment .comment-text {
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+}
+
 /* 888                           d8b            
 // 888                           Y8P            
 // 888                                          
