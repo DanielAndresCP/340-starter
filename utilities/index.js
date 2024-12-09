@@ -243,4 +243,42 @@ Util.isAuthorized = function (level, requiredLevel) {
 Util.handleErrors = (fn) => (req, res, next) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
+Util.createCommentHTML = function ({
+    commentAuthor,
+    commentText,
+    commentId,
+    showActions,
+}) {
+    return `
+    <article class="comment">
+        <div>
+            <div>
+                <p class="comment-author">${commentAuthor} says:</p>
+                <p class="comment-text">${commentText}</p>
+            </div>
+            ${
+                showActions
+                    ? `<div data-comment-id="${commentId}">
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </div>`
+                    : ""
+            }
+        </div>
+    </article>`;
+};
+
+Util.createCommentList = function (commentList) {
+    return `
+    <section class="comments-container">
+        <h2>Comments</h2>
+        ${
+            commentList.length
+                ? commentList.map((x) => Util.createCommentHTML(x))
+                : "No comments found :("
+        }
+    </section>
+    `;
+};
+
 module.exports = Util;
