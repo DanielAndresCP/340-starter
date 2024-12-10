@@ -298,8 +298,6 @@ async function updateAccountPassword(req, res, next) {
     // This is just to check if there is data,
     // and we use the email because the id may be falsy
     if (updateResult.account_email) {
-        console.log("******************** inside update resilt if");
-
         req.flash("notice", `Your account password was updated succesfully.`);
 
         const hourInMiliseconds = 1000 * 60 * 60;
@@ -321,11 +319,9 @@ async function updateAccountPassword(req, res, next) {
                 maxAge: hourInMiliseconds,
             });
         }
-        console.log("******************** jwt generated and set");
 
         return res.redirect(302, "/account/");
     } else {
-        console.log("******************** inside update resilt else");
         req.flash("error", "Sorry, the update failed.");
 
         return res.redirect(302, `/account/update/${account_id}`);
