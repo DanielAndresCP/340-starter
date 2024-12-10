@@ -51,9 +51,6 @@ validate.addCommentRules = () => {
     ];
 };
 
-/* ******************************
- * Check data and return errors or continue to registration
- * ***************************** */
 /**
  *
  * @param {import("express").Request} req
