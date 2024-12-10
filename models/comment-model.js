@@ -123,9 +123,9 @@ async function updateComment({ comment_text, comment_date, comment_id }) {
 async function deleteComment(comment_id) {
     try {
         const sql = `DELETE FROM comment WHERE comment_id = $1;`;
-        const data = await pool.query(sql, [comment_id]);
+        await pool.query(sql, [comment_id]);
 
-        return data;
+        return { success: true };
     } catch (error) {
         console.error("Delete inventory error:", error);
     }
