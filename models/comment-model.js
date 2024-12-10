@@ -2,8 +2,9 @@ const pool = require("../database/index");
 
 async function getComments() {
     try {
-        return await pool.query(
-            `
+        return (
+            await pool.query(
+                `
             SELECT
                 comment_id,
                 comment_text,
@@ -16,6 +17,7 @@ async function getComments() {
                 JOIN account AS a ON a.account_id = c.account_id
             ORDER BY comment_date DESC;
             `
+            )
         ).rows;
     } catch (error) {
         console.error("getComments error", error);
