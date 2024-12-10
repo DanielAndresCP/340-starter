@@ -446,6 +446,25 @@ nav a {
     margin-top: 0.5rem;
 }
 
+section.add-comment-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: min(300px, 100%);
+}
+
+section.add-comment-form label {
+    display: flex;
+    flex-direction: column;
+    max-width: min(300px, 100%);
+}
+
+section.add-comment-form textarea {
+    margin-top: 0.5rem;
+    font-family: var(--font-family);
+    padding: 0.5rem 0.6rem;
+}
+
 /* 888                           d8b            
 // 888                           Y8P            
 // 888                                          

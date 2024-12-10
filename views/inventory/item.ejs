@@ -2,5 +2,26 @@
 <h1><%= title %></h1>
 <% } else { res.redirect('/') } %>
 
-<%# messages() %>
+<!-- prettier-ignore -->
+<%- messages() %>
+
+<!-- prettier-ignore -->
 <%- details %>
+
+<!-- prettier-ignore -->
+<%#- commentList %>
+
+<% if (locals.loggedin == 1) { %>
+<section class="add-comment-form">
+    <h1>Add comment</h1>
+    <form action="/comments/add-comment" method="post">
+        <label>
+            Comment:
+            <textarea name="comment_text" required></textarea>
+        </label>
+        <input type="hidden" name="inv_id" value="<%- locals.inv_id %>" />
+
+        <button type="submit">Add Comment</button>
+    </form>
+</section>
+<% } %>
