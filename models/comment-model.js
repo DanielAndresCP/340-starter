@@ -24,6 +24,32 @@ async function getComments() {
     }
 }
 
+async function getCommentsByInventoryId(inv_id) {
+    try {
+        return (
+            await pool.query(
+                `
+            SELECT
+                comment_id,
+                comment_text,
+                comment_date,
+                inv_id,
+                c.account_id,
+                account_firstname,
+                account_lastname
+            FROM public.comment AS c
+                JOIN account AS a ON a.account_id = c.account_id
+            WHERE inv_id = $1
+            ORDER BY comment_date DESC;
+            `,
+                [inv_id]
+            )
+        ).rows;
+    } catch (error) {
+        console.error("getComments error", error);
+    }
+}
+
 async function getCommentbyId(comment_id) {
     try {
         const data = await pool.query(
@@ -105,4 +131,10 @@ async function deleteComment(comment_id) {
     }
 }
 
-module.exports = { getComments, getCommentbyId, insertComment, deleteComment };
+module.exports = {
+    getComments,
+    getCommentsByInventoryId,
+    getCommentbyId,
+    insertComment,
+    deleteComment,
+};
