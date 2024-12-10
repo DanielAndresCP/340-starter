@@ -259,8 +259,8 @@ Util.createCommentHTML = function ({
             ${
                 showActions
                     ? `<div data-comment-id="${commentId}">
-                        <button>Edit</button>
-                        <button>Delete</button>
+                        <button class="edit-comment-button">Edit</button>
+                        <button class="delete-comment-button">Delete</button>
                     </div>`
                     : ""
             }
