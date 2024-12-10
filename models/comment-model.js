@@ -136,5 +136,6 @@ module.exports = {
     getCommentsByInventoryId,
     getCommentbyId,
     insertComment,
+    updateComment,
     deleteComment,
 };
