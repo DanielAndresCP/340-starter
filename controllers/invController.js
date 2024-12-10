@@ -47,12 +47,20 @@ invCont.buildInventoryItem = async function (req, res, next) {
     // we get the comments and process them to get the html
     const commentsData = await commentModel.getCommentsByInventoryId(inv_id);
 
+    const isAdmin = utilities.isAuthorized(
+        res.locals.accountData.account_type,
+        "Admin"
+    );
+
     const comments = commentsData.map((x) => {
         return {
             commentAuthor: `${x.account_firstname} ${x.account_lastname}`,
             commentText: x.comment_text,
             showActions:
-                x.account_id === parseInt(res.locals.accountData.account_id),
+                res.locals.loggedin === 1
+                    ? x.account_id ===
+                          parseInt(res.locals.accountData.account_id) || isAdmin
+                    : false,
             commentId: x.comment_id,
         };
     });
@@ -64,7 +72,9 @@ invCont.buildInventoryItem = async function (req, res, next) {
         details,
         commentList,
         inv_id,
-        account_id: res.locals.accountData.account_id,
+        account_id: res.locals.loggedin
+            ? res.locals.accountData.account_id
+            : "walala",
     });
 };
 
