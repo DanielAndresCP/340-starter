@@ -55,6 +55,7 @@ invCont.buildInventoryItem = async function (req, res, next) {
     const comments = commentsData.map((x) => {
         return {
             commentAuthor: `${x.account_firstname} ${x.account_lastname}`,
+            commentDate: x.comment_date,
             commentText: x.comment_text,
             showActions:
                 res.locals.loggedin === 1

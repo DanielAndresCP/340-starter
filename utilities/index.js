@@ -246,6 +246,7 @@ Util.handleErrors = (fn) => (req, res, next) =>
 Util.createCommentHTML = function ({
     commentAuthor,
     commentText,
+    commentDate,
     commentId,
     showActions,
 }) {
@@ -253,7 +254,7 @@ Util.createCommentHTML = function ({
     <article class="comment">
         <div>
             <div>
-                <p class="comment-author">${commentAuthor} says:</p>
+                <p class="comment-author">(${commentDate}) ${commentAuthor} says:</p>
                 <p class="comment-text">${commentText}</p>
             </div>
             ${
