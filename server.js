@@ -13,6 +13,7 @@ const static = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoute = require("./routes/accountRoute");
+const commentRoute = require("./routes/commentRoute");
 const utilities = require("./utilities/index");
 const session = require("express-session");
 const pool = require("./database/index");
@@ -68,6 +69,7 @@ app.get("/", utilities.handleErrors(baseController.buildHome));
 
 app.use("/inv", inventoryRoute);
 app.use("/account", accountRoute);
+app.use("/comments", commentRoute);
 
 app.use(
     utilities.handleErrors(async (req, res, next) => {
@@ -87,7 +89,6 @@ app.use(async (err, req, res, next) => {
 
     console.error(`Error at: "${req.originalUrl}": ${err.message}`);
     console.log(err);
-    
 
     const message =
         err.status == 404
