@@ -55,16 +55,28 @@ commentController.addComment = async function (req, res) {
 commentController.deleteComment = async function (req, res) {
     const comment_id = parseInt(req.body.comment_id);
 
-    const result = commentModel.deleteComment(comment_id);
+    const commentData = await commentModel.getCommentbyId(comment_id);
+    const userIsAdmin = res.locals.accountData.account_type === "Admin";
+    const isSameUser =
+        res.locals.accountData.account_id == commentData.account_id;
 
-    if (!result) {
-        res.json({
+    if (!isSameUser && !userIsAdmin) {
+        return res.json({
+            hasErrors: true,
+            errors: ["You are not authorized to delete this comment."],
+        });
+    }
+
+    const result = await commentModel.deleteComment(comment_id);
+
+    if (result.success) {
+        return res.json({ success: true, msg: "Comment deleted succesfully" });
+    } else {
+        return res.json({
             hasErrors: true,
             errors: ["There was an error deleting the comment."],
         });
     }
-
-    res.json({ success: true, msg: "Comment deleted succesfully" });
 };
 
 module.exports = commentController;
