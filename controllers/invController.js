@@ -1,5 +1,6 @@
 const invModel = require("../models/inventory-model");
 const utilities = require("../utilities/index");
+const commentModel = require("../models/comment-model");
 
 const invCont = {};
 
@@ -43,10 +44,25 @@ invCont.buildInventoryItem = async function (req, res, next) {
     const details = utilities.buildInventoryDetails(data);
     const nav = await utilities.getNav();
 
+    // we get the comments and process them to get the html
+    const commentsData = await commentModel.getCommentsByInventoryId(inv_id);
+
+    const comments = commentsData.map((x) => {
+        return {
+            commentAuthor: `${x.account_firstname} ${x.account_lastname}`,
+            commentText: x.comment_text,
+            showActions:
+                x.account_id === parseInt(res.locals.accountData.account_id),
+            commentId: x.comment_id,
+        };
+    });
+    const commentList = utilities.createCommentList(comments);
+
     res.render("./inventory/item", {
         title: `${data.inv_year} ${data.inv_make} ${data.inv_model}`,
         nav,
         details,
+        commentList,
     });
 };
 
