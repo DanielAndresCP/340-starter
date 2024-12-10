@@ -14,4 +14,11 @@ router.post(
     utilities.handleErrors(commentController.addComment)
 );
 
+router.post(
+    "/delete-comment",
+    commentValidation.deleteCommentRules(),
+    commentValidation.checkDeleteCommentData,
+    utilities.handleErrors(commentController.deleteComment)
+);
+
 module.exports = router;

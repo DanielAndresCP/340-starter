@@ -35,4 +35,36 @@ commentController.addComment = async function (req, res) {
     res.redirect(`/inv/detail/${inv_id}`);
 };
 
+//        d8888            d8b
+//       d88888            Y8P
+//      d88P888
+//     d88P 888  88888b.   888
+//    d88P  888  888 "88b  888
+//   d88P   888  888  888  888
+//  d8888888888  888 d88P  888
+// d88P     888  88888P"   888
+//               888
+//               888
+//               888
+
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
+commentController.deleteComment = async function (req, res) {
+    const comment_id = parseInt(req.body.comment_id);
+
+    const result = commentModel.deleteComment(comment_id);
+
+    if (!result) {
+        res.json({
+            hasErrors: true,
+            errors: ["There was an error deleting the comment."],
+        });
+    }
+
+    res.json({ success: true, msg: "Comment deleted succesfully" });
+};
+
 module.exports = commentController;

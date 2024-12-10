@@ -3,6 +3,7 @@ const accountModel = require("../models/account-model");
 const invModel = require("../models/inventory-model");
 const { body, validationResult } = require("express-validator");
 const validate = {};
+const commentModel = require("../models/comment-model");
 
 validate.addCommentRules = () => {
     return [
@@ -76,6 +77,73 @@ validate.checkAddCommentData = async (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.redirect(`/inv/detail/${inv_id}`);
     }
+
+    next();
+};
+
+validate.deleteCommentRules = () => {
+    return [
+        // an existing account id must be provided
+        body("comment_id")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("There was an error deleting the comment.")
+            .custom(async (comment_id) => {
+                const commentExists = (
+                    await commentModel.getCommentbyId(parseInt(comment_id))
+                )?.comment_text;
+
+                if (!commentExists) {
+                    throw new Error(
+                        "There was an error deleting the comment, it looks like it was already deleted."
+                    );
+                }
+            }),
+
+        // // an existing inv id must be provided
+        // body("inv_id")
+        //     .trim()
+        //     .notEmpty()
+        //     .custom(async (inv_id) => {
+        //         const invExists = (
+        //             await invModel.getInventoryItemById(parseInt(inv_id))
+        //         ).inv_make;
+
+        //         if (!invExists) {
+        //             throw new Error("There was an error deleting the comment.");
+        //         }
+        //     }),
+    ];
+};
+
+/* ******************************
+ * Check data and return errors or continue to registration
+ * ***************************** */
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ * @returns
+ */
+validate.checkDeleteCommentData = async (req, res, next) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        // We send a json response because this is the api, not a view
+        return res.json({
+            hasErrors: true,
+            errors: errors
+                .array()
+                .filter((x) => x.msg !== "Invalid value")
+                .map((x) => x.msg),
+        });
+    }
+
+    // if (!errors.isEmpty()) {
+    //     return res.redirect(`/inv/detail/${inv_id}`);
+    // }
 
     next();
 };
