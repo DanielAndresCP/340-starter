@@ -274,7 +274,7 @@ Util.createCommentList = function (commentList) {
         <h2>Comments</h2>
         ${
             commentList.length
-                ? commentList.map((x) => Util.createCommentHTML(x))
+                ? commentList.map((x) => Util.createCommentHTML(x)).join("")
                 : "No comments found :("
         }
     </section>
