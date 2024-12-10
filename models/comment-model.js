@@ -70,7 +70,7 @@ async function getCommentbyId(comment_id) {
             [comment_id]
         );
 
-        return data.rows;
+        return data.rows[0];
     } catch (error) {
         console.error("getCommentById error", error);
     }
