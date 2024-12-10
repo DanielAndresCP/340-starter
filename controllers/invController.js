@@ -63,6 +63,8 @@ invCont.buildInventoryItem = async function (req, res, next) {
         nav,
         details,
         commentList,
+        inv_id,
+        account_id: res.locals.accountData.account_id,
     });
 };
 

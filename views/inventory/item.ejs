@@ -17,9 +17,12 @@
     <form action="/comments/add-comment" method="post">
         <label>
             Comment:
-            <textarea name="comment_text" required></textarea>
+            <textarea name="comment_text" required>
+<%- locals.comment_text %></textarea
+            >
         </label>
         <input type="hidden" name="inv_id" value="<%- locals.inv_id %>" />
+        <input type="hidden" name="account_id" value="<%- locals.account_id %>" />
 
         <button type="submit">Add Comment</button>
     </form>
