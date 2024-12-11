@@ -145,6 +145,8 @@ invCont.createClassification = async function (req, res, next) {
 
     if (insertResult) {
         let newNav = await utilities.getNav();
+        const classificationSelect =
+            await utilities.buildClassificationSelect();
 
         req.flash(
             "notice",
@@ -153,6 +155,7 @@ invCont.createClassification = async function (req, res, next) {
         res.status(201).render("inventory/management", {
             title: "Inventory Management",
             nav: newNav,
+            classificationSelect,
         });
     } else {
         req.flash("error", "Sorry, the creation of the classification failed.");
