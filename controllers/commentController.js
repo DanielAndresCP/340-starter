@@ -35,6 +35,45 @@ commentController.addComment = async function (req, res) {
     res.redirect(`/inv/detail/${inv_id}`);
 };
 
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ */
+commentController.editComment = async function (req, res) {
+    const comment_id = parseInt(req.body.comment_id);
+    const inv_id = parseInt(req.body.inv_id);
+    const comment_text = req.body.comment_text;
+
+    let dateObj = new Date();
+    const offset = dateObj.getTimezoneOffset();
+    dateObj = new Date(dateObj.getTime() - offset * 60 * 1000);
+    const comment_date = dateObj.toISOString().split("T")[0];
+
+    const commentData = await commentModel.getCommentbyId(comment_id);
+
+    const userIsAdmin = res.locals.accountData.account_type === "Admin";
+    const isSameUser =
+        res.locals.accountData.account_id == commentData.account_id;
+
+    if (!isSameUser && !userIsAdmin) {
+        return res.redirect(`/inv/detail/${inv_id}`);
+    }
+
+    const result = await commentModel.updateComment({
+        comment_date,
+        comment_id,
+        comment_text,
+    });
+    // TODO aquí estamos, tenemos que agregar el cleitn side js
+    if (result) {
+        return res.redirect(`/inv/detail/${inv_id}`);
+    } else {
+        req.flash("error", "There was an error updating the comment");
+        return res.redirect(`/inv/detail/${inv_id}`);
+    }
+};
+
 //        d8888            d8b
 //       d88888            Y8P
 //      d88P888

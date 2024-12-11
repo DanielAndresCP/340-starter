@@ -145,4 +145,75 @@ validate.checkDeleteCommentData = async (req, res, next) => {
     next();
 };
 
+validate.editCommentRules = () => {
+    return [
+        // comment_text is required and must be a string
+        body("comment_text")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("Please provide a comment.")
+            .isLength({ min: 1 })
+            .withMessage("Please provide a comment."),
+
+        body("comment_id")
+            .trim()
+            .escape()
+            .notEmpty()
+            .withMessage("There was an error updating the comment.")
+            .custom(async (comment_id) => {
+                const commentExists = (
+                    await commentModel.getCommentbyId(parseInt(comment_id))
+                )?.comment_text;
+
+                if (!commentExists) {
+                    throw new Error(
+                        "There was an error updating the comment, it looks like it was deleted."
+                    );
+                }
+            }),
+
+        // an existing inv id must be provided
+        body("inv_id")
+            .trim()
+            .notEmpty()
+            .custom(async (inv_id) => {
+                const invExists = (
+                    await invModel.getInventoryItemById(parseInt(inv_id))
+                ).inv_make;
+
+                if (!invExists) {
+                    throw new Error("There was an error adding the comment.");
+                }
+            }),
+    ];
+};
+
+/**
+ *
+ * @param {import("express").Request} req
+ * @param {import("express").Response} res
+ * @param {import("express").NextFunction} next
+ * @returns
+ */
+validate.checkEditCommentData = async (req, res, next) => {
+    const { inv_id } = req.body;
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        errors
+            .array()
+            .filter((x) => x.msg !== "Invalid value")
+            .forEach((x) => {
+                req.flash("error", x.msg);
+            });
+    }
+
+    if (!errors.isEmpty()) {
+        return res.redirect(`/inv/detail/${inv_id}`);
+    }
+
+    next();
+};
+
 module.exports = validate;

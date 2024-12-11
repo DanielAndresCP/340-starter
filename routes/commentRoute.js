@@ -21,4 +21,11 @@ router.post(
     utilities.handleErrors(commentController.deleteComment)
 );
 
+router.post(
+    "/edit-comment",
+    commentValidation.editCommentRules(),
+    commentValidation.checkEditCommentData,
+    utilities.handleErrors(commentController.editComment)
+);
+
 module.exports = router;
