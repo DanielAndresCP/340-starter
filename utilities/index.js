@@ -248,6 +248,7 @@ Util.createCommentHTML = function ({
     commentText,
     commentDate,
     commentId,
+    invId,
     showActions,
 }) {
     return `
@@ -259,7 +260,7 @@ Util.createCommentHTML = function ({
             </div>
             ${
                 showActions
-                    ? `<div data-comment-id="${commentId}">
+                    ? `<div data-comment-id="${commentId}" data-inv-id="${invId}">
                         <button class="edit-comment-button">Edit</button>
                         <button class="delete-comment-button">Delete</button>
                     </div>`

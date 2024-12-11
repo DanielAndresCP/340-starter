@@ -63,6 +63,7 @@ invCont.buildInventoryItem = async function (req, res, next) {
                           parseInt(res.locals.accountData.account_id) || isAdmin
                     : false,
             commentId: x.comment_id,
+            invId: inv_id,
         };
     });
     const commentList = utilities.createCommentList(comments);
