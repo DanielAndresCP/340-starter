@@ -57,6 +57,7 @@ commentController.editComment = async function (req, res) {
         res.locals.accountData.account_id == commentData.account_id;
 
     if (!isSameUser && !userIsAdmin) {
+        req.flash("error","You are not authorized for this action")
         return res.redirect(`/inv/detail/${inv_id}`);
     }
 
@@ -65,8 +66,9 @@ commentController.editComment = async function (req, res) {
         comment_id,
         comment_text,
     });
-    // TODO aquí estamos, tenemos que agregar el cleitn side js
+    
     if (result) {
+        req.flash("notice","Comment updated successfully")
         return res.redirect(`/inv/detail/${inv_id}`);
     } else {
         req.flash("error", "There was an error updating the comment");
