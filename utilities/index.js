@@ -255,7 +255,7 @@ Util.createCommentHTML = function ({
     <article class="comment">
         <div>
             <div>
-                <p class="comment-author">(${commentDate}) ${commentAuthor} says:</p>
+                <h3 class="comment-author">(${commentDate}) ${commentAuthor} says:</h3>
                 <p class="comment-text">${commentText}</p>
             </div>
             ${
