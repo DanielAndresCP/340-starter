@@ -31,6 +31,9 @@
         <button type="submit">Add Comment</button>
     </form>
 </section>
+<% } else { %>
+<p>You must be logged in to add comments.</p>
+<p><a href="/account/login">Log In.</a></p>
 <% } %>
 
 <script src="/js/item.js"></script>
