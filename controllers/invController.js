@@ -47,10 +47,13 @@ invCont.buildInventoryItem = async function (req, res, next) {
     // we get the comments and process them to get the html
     const commentsData = await commentModel.getCommentsByInventoryId(inv_id);
 
-    const isAdmin = utilities.isAuthorized(
-        res.locals.accountData.account_type,
-        "Admin"
-    );
+    const isAdmin =
+        res.locals.loggedin === 1
+            ? utilities.isAuthorized(
+                  res.locals.accountData.account_type,
+                  "Admin"
+              )
+            : false;
 
     const comments = commentsData.map((x) => {
         return {
