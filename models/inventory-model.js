@@ -149,9 +149,9 @@ async function updateInventory({
 async function deleteInventory(inv_id) {
     try {
         const sql = `DELETE FROM inventory WHERE inv_id = $1;`;
-        const data = await pool.query(sql, [inv_id]);
+        await pool.query(sql, [inv_id]);
 
-        return data;
+        return { success: true };
     } catch (error) {
         console.error("Delete inventory error:", error);
     }

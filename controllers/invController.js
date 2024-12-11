@@ -381,15 +381,22 @@ invCont.buildDeleteVehiclePage = async function (req, res, next) {
 invCont.deleteVehicle = async function (req, res, next) {
     const inv_id = parseInt(req.body.inv_id);
 
+    const comments = await commentModel.getCommentsByInventoryId(inv_id);
+
+    if (comments.length > 0) {
+        for (const commment of comments) {
+            await commentModel.deleteComment(commment.comment_id);
+        }
+    }
+
     const deleteResult = await invModel.deleteInventory(inv_id);
 
-    if (deleteResult) {
+    if (deleteResult?.success) {
         req.flash("notice", "The vehicle was succesfully deleted");
 
         res.redirect(303, "/inv/");
     } else {
-        const itemName = `${inv_make} ${inv_model}`;
-        req.flash("error", `Sorry, the deletion of ${itemName} failed.`);
+        req.flash("error", `Sorry, the deletion failed.`);
 
         res.redirect(`/inv/delete/${inv_id}`);
     }
