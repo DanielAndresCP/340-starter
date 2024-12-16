@@ -1,0 +1,5 @@
+.devcontainer
+.vscode
+.git
+.prettierc
+node_modules
