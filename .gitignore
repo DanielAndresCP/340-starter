@@ -20,6 +20,8 @@ README.md
 
 pnpm-lock.yaml
 
+package-lock.json
+
 #Dockerfile
 #.dockerignore
 .devcontainer
